@@ -25,9 +25,31 @@ export default function SignUp() {
         resolver: zodResolver(signUpFormValidationSchema)
     });
 
-    const onSubmit = (data: SignUpFormData) => {
-        console.log(data);
+    const onSubmit = async (data: SignUpFormData) => {
+        try {
+            const response = await fetch('http://localhost:3001/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+    
+            if (response.ok) {
+                const result = await response.json();
+                console.log('User created:', result);
+                // Aqui você pode redirecionar o usuário ou mostrar uma mensagem de sucesso
+            } else {
+                const error = await response.json();
+                console.error('Failed to create user:', error);
+                // Aqui você pode exibir uma mensagem de erro
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            // Aqui você pode exibir uma mensagem de erro
+        }
     };
+    
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen">
