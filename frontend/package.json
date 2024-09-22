@@ -1,5 +1,5 @@
 {
-  "name": "form-sign-up",
+  "name": "frontend",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
-    "next": "14.2.8",
+    "next": "^14.2.13",
     "phosphor-react": "^1.4.1",
     "react": "^18",
     "react-dom": "^18",
