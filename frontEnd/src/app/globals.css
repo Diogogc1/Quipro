@@ -9,7 +9,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #18181B;
     --foreground: #ededed;
   }
 }
@@ -24,4 +24,11 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 30px #18181B inset !important; /* Define a cor de fundo desejada do auto completar dos inputs*/
+  -webkit-text-fill-color: white !important; /* Define a cor do texto dos autocompletares dos inputs */
 }
