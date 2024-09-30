@@ -4,6 +4,7 @@ import { CalendarBlank, EnvelopeSimple, LockSimple, UserCircle } from "phosphor-
 import * as zod from 'zod'
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import Image from 'next/image';
 
 const signUpFormValidationSchema = zod.object({
     email: zod.string().email('E-mail inválido'),
@@ -52,7 +53,8 @@ export default function SignUp() {
     
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen">
+        <div className="flex flex-col items-center justify-center min-h-screen gap-10">
+            <Image alt="logo" src={'/logo.svg'} width="200" height="64" />
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="w-[500px] flex flex-col gap-4">
                     <div className="relative w-full">
