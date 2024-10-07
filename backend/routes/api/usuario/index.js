@@ -38,4 +38,29 @@ router.post('/cadastro', async (req, res) => {
     }
 });
 
+// Rota de login
+router.post('/login', async (req, res) => {
+    const { email, password } = req.body;
+
+    try {
+        // Verifica se o usuário existe
+        const user = await prisma.user.findUnique({
+            where: { email }
+        });
+
+        if (!user) {
+            return res.status(400).json({ error: 'Usuário não encontrado' });
+        }
+
+        // Verifica se a senha está correta
+        if (user.password !== password) {
+            return res.status(400).json({ error: 'Senha incorreta' });
+        }
+
+        res.status(200).json({ message: 'Login bem-sucedido' });
+    } catch (error) {
+        res.status(500).json({ error: 'Falha ao fazer login' });
+    }
+});
+
 module.exports = router;
