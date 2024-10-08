@@ -9,11 +9,7 @@ export default function Ranking() {
 
     return (
         <>
-            <Header srcAvatar={usuarioLogado} />
-            <div className="flex">
-                <MenuLateral />
-                <main></main>
-            </div>
+            
         </>
     )
 }
