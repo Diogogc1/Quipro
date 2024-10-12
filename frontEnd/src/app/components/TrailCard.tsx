@@ -18,7 +18,7 @@ export function TrailCard({ name, type }: TrailCardProps) {
 
   return (
     <>
-      <div className="h-56 p-6 bg-zinc-800 rounded-xl border border-zinc-700 flex-col justify-start items-start gap-2.5 inline-flex hover:border-violet-600 transition-colors duration-250">
+      <div className="h-56 p-6 bg-zinc-800 rounded-xl border border-zinc-700 flex-col justify-start items-start gap-2.5 inline-flex hover:border-violet-600 transition-colors duration-250 cursor-pointer">
         <div className="w-[293px] justify-between items-start inline-flex">
           <div className="w-14 h-14 relative bg-zinc-900 rounded-xl border border-zinc-700">
             <IconComponent className="w-6 h-6 left-[16px] top-[16px] absolute text-lime-400" />

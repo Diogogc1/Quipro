@@ -1,5 +1,5 @@
 import { useRouter, usePathname } from 'next/navigation';
-import {House, Question} from 'phosphor-react';
+import {House, Question, Trophy} from 'phosphor-react';
 
 
 export function MenuLateral()
@@ -22,7 +22,7 @@ export function MenuLateral()
                 className={`w-[168px] h-12 px-3 py-2 rounded-lg justify-start items-center gap-3 inline-flex ${pathname === '/Home/Ranking' ? 'bg-zinc-800' : 'border-transparent'} `}
                 onClick={() => router.push('/Home/Ranking')}
             >
-                <div className={`w-8 h-8 ${pathname === '/Home/Ranking' ? 'text-violet-600' : 'text-zinc-500'}`}  />
+                <Trophy className={`w-8 h-8 ${pathname === '/Home/Ranking' ? 'text-violet-600' : 'text-zinc-500'}`}  />
                 <p className="text-zinc-500 text-base font-normal">Ranking</p>
             </button>
         </div>
