@@ -1,36 +1,35 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Quipro
 
-## Getting Started
+### O que é?👨‍🔬
+<p align="justify">
+ O Quipro é uma aplicação web interativa e gamificada, desenvolvida para melhorar o ensino e o aprendizado de Química no nível médio. A plataforma é projetada para ser acessível em diferentes dispositivos, oferecendo uma experiência de usuário consistente e intuitiva. Com quizzes dinâmicos que incorporam elementos de gamificação, como pontuações, níveis e feedback imediato, o Quipro torna o estudo da Química mais atraente e envolvente para os estudantes.
+<p>
+<p align="justify">
+O Quipro não apenas oferece um ambiente de aprendizado estimulante, mas também serve como uma poderosa ferramenta pedagógica para professores. A plataforma inclui um banco de dados diversificado de questões de Química, abrangendo tópicos essenciais do ensino médio. Professores podem personalizar os quizzes para atender às necessidades específicas de suas turmas e acompanhar o desempenho dos alunos através de relatórios detalhados e insights pedagógicos, permitindo intervenções educativas mais eficazes.
+<p>
 
-First, run the development server:
+### Tecnologias💻
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+**Front-end**
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+![Next.js](https://img.shields.io/badge/-Next.js-0070f3?logo=next.js&logoColor=white&style=flat)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?logo=typescript&logoColor=white&style=flat)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+**Back-end**
 
-## Learn More
+![Express.js](https://img.shields.io/badge/-Express.js-4E4E4E?logo=express&logoColor=white&style=flat)
 
-To learn more about Next.js, take a look at the following resources:
+![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?logo=typescript&logoColor=white&style=flat)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Banco de Dados**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+![MySQL](https://img.shields.io/badge/-MySQL-4479A1?logo=mysql&logoColor=white&style=flat)
 
-## Deploy on Vercel
+**Containerização**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+![Docker](https://img.shields.io/badge/-Docker-2496ED?logo=docker&logoColor=white&style=flat)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Controle de Versão**
+
+![Git](https://img.shields.io/badge/-Git-F05032?logo=git&logoColor=white&style=flat)
