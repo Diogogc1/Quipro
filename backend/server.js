@@ -7,9 +7,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const routes = require("./routes/index")
-app.use("/routes", routes)
-
+const usuarioRouter = require('./routes/usuarioRouter');
+app.use('/usuario', usuarioRouter);
 
 app.listen(3001, () => {
     console.log('Server running on port 3001');
