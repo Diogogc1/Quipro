@@ -1,10 +1,10 @@
 //ARQUIVO RESPONSÁVEL POR AGRUPAR AS ROTAS DE ALUNO
 
 const express = require("express")
-const alunoRouter = express.Router
+const router = express.Router()
 
-alunoRouter.get("/", (req, res) => {
+router.get("/", (req, res) => {
     res.send("Aluno")
 })
 
-module.exports = alunoRouter 
+module.exports = router 
