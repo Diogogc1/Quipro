@@ -1,5 +1,3 @@
-//ARQUIVO RESPONSÁVEL POR AGRUPAR TODAS AS ROTAS DE ALUNO
-
 const { Router } = require('express')
 const router = Router()
 const { PrismaClient } = require('@prisma/client');
