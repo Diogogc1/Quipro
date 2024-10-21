@@ -1,7 +1,11 @@
 'use client';
 
 import React, { useState } from 'react';
+<<<<<<<< HEAD:frontEnd/src/app/home/trilha/quizpage/page.tsx
 import QuizQuestion from '../../../components/QuizQuestion';
+========
+import QuizQuestion from '../../components/QuizQuestion';
+>>>>>>>> main:frontEnd/src/app/home/quizpage/page.tsx
 import { quizData } from './data'; 
 
 const QuizPage: React.FC = () => {

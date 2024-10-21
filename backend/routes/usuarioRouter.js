@@ -1,7 +1,5 @@
-//ARQUIVO RESPONSÁVEL POR AGRUPAR TODAS AS ROTAS DE ALUNO
-
-const { Router } = require('express')
-const router = Router()
+const express = require("express")
+const router = express.Router()
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
@@ -57,7 +55,7 @@ router.post('/login', async (req, res) => {
             return res.status(400).json({ error: 'Senha incorreta' });
         }
 
-        res.status(200).json({ message: 'Login bem-sucedido' });
+        res.status(200).json({ message: 'Login bem-sucedido', user});
     } catch (error) {
         res.status(500).json({ error: 'Falha ao fazer login' });
     }

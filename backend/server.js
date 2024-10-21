@@ -7,8 +7,18 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const routes = require("./routes/index")
-app.use("/routes", routes)
+const usuarioRouter = require('./routes/usuarioRouter');
+app.use('/usuario', usuarioRouter);
+
+const alunoRouter = require('./routes/alunoRouter');
+app.use('/aluno', alunoRouter);
+
+// Trilhas e capítulos (o pai tá backendu)
+const trilhaRouter = require('./routes/trilhaRouter');
+app.use('/trilha', trilhaRouter);
+
+const capituloRouter = require('./routes/capituloRouter');
+app.use('/capitulo', capituloRouter);
 
 
 app.listen(3001, () => {
