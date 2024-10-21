@@ -1,10 +1,7 @@
-"use client";
-
 import { ButtonRoute } from "../components/ButtonRoute";
 import { TrailCard } from "../components/TrailCard";
 
-
-
+//foto temporaria enquanto nao puxa do banco de dados
 const usuarioLogado = "https://github.com/AugustoRibeiro7.png";
 
 export default function Home() {
@@ -15,9 +12,9 @@ export default function Home() {
                 <h1 className="text-zinc-400 text-[2rem] font-bold">Trilhas</h1>
                 <p className="text-zinc-500 text-sm font-normal leading-snug">Fique à vontade para aprender da forma que você desejar, de onde estiver.</p>
                 <div className="mt-6 flex gap-8">
-                    <ButtonRoute name="Iniciante" type="Play" />
-                    <ButtonRoute name="Intermediário" type="TestTube" />
-                    <ButtonRoute name="Avançado" type="Medal" />
+                    <ButtonRoute name="Iniciante" type="Play" link="home/trilha/iniciante" />
+                    <ButtonRoute name="Intermediário" type="TestTube" link="home/trilha/intermediaria" />
+                    <ButtonRoute name="Avançado" type="Medal" link="home/trilha/avancada" />
                 </div>
             </div>
 
