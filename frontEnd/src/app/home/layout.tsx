@@ -11,7 +11,7 @@ export default function GeralLayout({ children }: { children: React.ReactNode })
     <>
 
         <Header srcAvatar={usuarioLogado} />
-        <div className="flex">
+        <div className="flex bg-zinc-900">
             <MenuLateral />
             <main className="px-8 pt-10">
                 {children}
