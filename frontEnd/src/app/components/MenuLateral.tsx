@@ -1,3 +1,5 @@
+"use client";
+
 import { useRouter, usePathname } from 'next/navigation';
 import {House, Question, Trophy} from 'phosphor-react';
 

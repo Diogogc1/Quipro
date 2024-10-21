@@ -1,3 +1,5 @@
+"use client";
+
 import { ArrowsIn, MathOperations, Funnel, Atom } from "phosphor-react";
 
 interface TrailCardProps {

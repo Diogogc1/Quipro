@@ -10,6 +10,16 @@ app.use(express.json());
 const usuarioRouter = require('./routes/usuarioRouter');
 app.use('/usuario', usuarioRouter);
 
+const alunoRouter = require('./routes/alunoRouter');
+app.use('/aluno', alunoRouter);
+
+// Trilhas e capítulos (o pai tá backendu)
+const trilhaRouter = require('./routes/trilhaRouter');
+app.use('/trilha', trilhaRouter);
+
+const capituloRouter = require('./routes/capituloRouter');
+app.use('/capitulo', capituloRouter);
+
 // const alunoRouter = require('./routes/alunoRouter');
 // app.use('/aluno', alunoRouter);
 

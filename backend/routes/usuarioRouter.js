@@ -32,7 +32,6 @@ router.post('/cadastro', async (req, res) => {
 
         res.status(201).json(newUser);
     } catch (error) {
-        console.error(error); // Ajuda a depurar o erro
         res.status(400).json({ error: 'Failed to create user' });
     }
 });
@@ -57,7 +56,7 @@ router.post('/login', async (req, res) => {
             return res.status(400).json({ error: 'Senha incorreta' });
         }
 
-        res.status(200).json({ message: 'Login bem-sucedido' });
+        res.status(200).json({ message: 'Login bem-sucedido', user});
     } catch (error) {
         res.status(500).json({ error: 'Falha ao fazer login' });
     }

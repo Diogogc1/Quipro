@@ -35,7 +35,7 @@ type SignUpFormData = zod.infer<typeof signUpFormValidationSchema>;
 
 export default function SignUp() {
 
-    const router = useRouter(); // Inicializando o useRouter
+  const router = useRouter(); // Inicializando o useRouter
 
   const {
     register,
@@ -71,7 +71,7 @@ export default function SignUp() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen gap-10">
+    <div className="bg-zinc-900 flex flex-col items-center justify-center min-h-screen gap-10">
       <Image alt="logo" src={"/logo.svg"} width="200" height="64" />
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="w-[500px] flex flex-col gap-4">
@@ -80,7 +80,7 @@ export default function SignUp() {
               id="email"
               type="text"
               placeholder="Informe seu melhor e-mail"
-              className="w-full h-12 font-roboto bg-zinc-900 border border-zinc-700 text-xl p-4 pl-14 pr-4 border-solid border rounded-full focus:outline-none focus:border-violet-600"
+              className="text-gray-500 w-full h-12 font-roboto bg-zinc-900 border border-zinc-700 text-xl p-4 pl-14 pr-4 border-solid rounded-full focus:outline-none focus:border-violet-600"
               {...register("email")}
             />
             <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
@@ -94,7 +94,7 @@ export default function SignUp() {
               id="userName"
               type="text"
               placeholder="Escolha um nome de usuário"
-              className="w-full h-12 font-roboto bg-zinc-900 border border-zinc-700 text-xl p-4 pl-14 pr-4 border-solid border rounded-full focus:outline-none focus:border-violet-600"
+              className="text-gray-500 w-full h-12 font-roboto bg-zinc-900 border-zinc-700 text-xl p-4 pl-14 pr-4 border-solid border rounded-full focus:outline-none focus:border-violet-600"
               {...register("userName")}
             />
             <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
@@ -108,7 +108,7 @@ export default function SignUp() {
               id="dateOfBirth"
               type="date"
               placeholder="dd/mm/yyyy"
-              className="w-full h-12 font-roboto bg-zinc-900 border border-zinc-700 text-xl p-4 pl-14 pr-4 border-solid border rounded-full focus:outline-none focus:border-violet-600"
+              className="text-gray-500 w-full h-12 font-roboto bg-zinc-900 border-zinc-700 text-xl p-4 pl-14 pr-4 border-solid border rounded-full focus:outline-none focus:border-violet-600"
               {...register("dateBirth")}
             />
             <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
@@ -122,7 +122,7 @@ export default function SignUp() {
               id="password"
               type="password"
               placeholder="Crie uma senha forte"
-              className="w-full h-12 font-roboto bg-zinc-900 border border-zinc-700 text-xl p-4 pl-14 pr-4 border-solid border rounded-full focus:outline-none focus:border-violet-600"
+              className="text-gray-500 w-full h-12 font-roboto bg-zinc-900 border-zinc-700 text-xl p-4 pl-14 pr-4 border-solid border rounded-full focus:outline-none focus:border-violet-600"
               {...register("password")}
             />
             <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
@@ -136,7 +136,7 @@ export default function SignUp() {
               id="confirmPassword"
               type="password"
               placeholder="Confirme a senha criada"
-              className="w-full h-12 font-roboto bg-zinc-900 border border-zinc-700 text-xl p-4 pl-14 pr-4 border-solid border rounded-full focus:outline-none focus:border-violet-600"
+              className="text-gray-500 w-full h-12 font-roboto bg-zinc-900 border-zinc-700 text-xl p-4 pl-14 pr-4 border-solid border rounded-full focus:outline-none focus:border-violet-600"
               {...register("confirmPassword")}
             />
             <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
@@ -148,13 +148,13 @@ export default function SignUp() {
           </div>
         </div>
         <div className="flex items-center mt-8 gap-4">
-            <Link href={'../login'}> 
+          <Link href={'../login'}>
             <button
-                type="submit"
-                className="flex items-center justify-center gap-3 w-[15.0625rem] h-[3rem] border border-lime-400 px-4 py-[0.625rem] text-white rounded-full hover:border-lime-300 transition-colors duration-200"
+              type="submit"
+              className="flex items-center justify-center gap-3 w-[15.0625rem] h-[3rem] border border-lime-400 px-4 py-[0.625rem] text-white rounded-full hover:border-lime-300 transition-colors duration-200"
             >
-                <ArrowLeft size={24} />
-                Voltar
+              <ArrowLeft size={24} />
+              Voltar
             </button>
           </Link>
 

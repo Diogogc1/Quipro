@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import QuizQuestion from '../../components/QuizQuestion';
-import { quizData } from '../quizpage/data'; 
+import QuizQuestion from '../../../components/QuizQuestion';
+import { quizData } from './data';
 
 const QuizPage: React.FC = () => {
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
