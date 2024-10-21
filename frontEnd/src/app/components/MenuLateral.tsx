@@ -15,7 +15,7 @@ export function MenuLateral()
                 className={`w-[168px] h-12 px-3 py-2 rounded-lg justify-start items-center gap-3 inline-flex ${pathname === '/home' ? 'bg-zinc-800' : 'border-transparent'} `}
                 onClick={() => router.push('/home')}
             >
-                <House className={`w-8 h-8 ${pathname === '/Home' ? 'text-violet-600' : 'text-zinc-500'}`} />
+                <House className={`w-8 h-8 ${pathname === '/home' ? 'text-violet-600' : 'text-zinc-500'}`} />
                 <p className="text-zinc-300 text-base">Home</p>
             </button>
             <button 

@@ -18,7 +18,7 @@ const signUpFormValidationSchema = zod
   .object({
     email: zod.string().email("E-mail inválido"),
     userName: zod.string().min(3, "Nome tem que ter pelo menos 3 caracteres"),
-    dateOfBirth: zod.string().refine((value) => {
+    dateBirth: zod.string().refine((value) => {
       return !isNaN(Date.parse(value));
     }, "Data de nascimento inválida"),
     password: zod.string().min(6, "A senha deve ter pelo menos 6 caracteres"),
@@ -47,7 +47,7 @@ export default function SignUp() {
 
   const onSubmit = async (data: SignUpFormData) => {
     try {
-      const response = await fetch("http://localhost:3001/register", {
+      const response = await fetch("http://localhost:3001/usuario/cadastro", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -109,12 +109,12 @@ export default function SignUp() {
               type="date"
               placeholder="dd/mm/yyyy"
               className="w-full h-12 font-roboto bg-zinc-900 border border-zinc-700 text-xl p-4 pl-14 pr-4 border-solid border rounded-full focus:outline-none focus:border-violet-600"
-              {...register("dateOfBirth")}
+              {...register("dateBirth")}
             />
             <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
               <CalendarBlank className="text-gray-500 transition-colors group-focus-within:text-lime-400" size={24} />
             </div>
-            {errors.dateOfBirth && <span>{errors.dateOfBirth.message}</span>}
+            {errors.dateBirth && <span>{errors.dateBirth.message}</span>}
           </div>
 
           <div className="relative w-full group">

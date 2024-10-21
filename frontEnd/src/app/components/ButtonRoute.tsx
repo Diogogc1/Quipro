@@ -1,11 +1,13 @@
 import { Play, TestTube, Medal } from "phosphor-react";
+import { useRouter } from "next/navigation";
 
-interface ButtonRouteProps{
-    name:string,
-    type: "Play" | "TestTube" | "Medal"
+interface ButtonRouteProps {
+  name: string,
+  type: "Play" | "TestTube" | "Medal"
 }
 
-export function ButtonRoute({name, type}:ButtonRouteProps) {
+export function ButtonRoute({ name, type }: ButtonRouteProps) {
+  const router = useRouter();
 
   const icons = {
     Play: Play,
@@ -15,9 +17,13 @@ export function ButtonRoute({name, type}:ButtonRouteProps) {
 
   const IconComponent = icons[type];
 
+  function handleClick() {
+    router.push(`/home/trilha/${name}`);
+  };
+
   return (
     <>
-      <button className="w-[4.375rem] h-[5.125rem] flex-col justify-start items-center gap-1 inline-flex">
+      <button onClick={handleClick} className="w-[4.375rem] h-[5.125rem] flex-col justify-start items-center gap-1 inline-flex">
         <div className="p-4 bg-zinc-800 rounded-xl border border-zinc-700 justify-start items-center gap-2.5 inline-flex hover:border-lime-400 transition-colors duration-250">
           <IconComponent className="w-6 h-6 text-violet-600" />
         </div>
