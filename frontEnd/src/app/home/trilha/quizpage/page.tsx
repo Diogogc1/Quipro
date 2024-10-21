@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import QuizQuestion from '../../../components/QuizQuestion';
-import QuizQuestion from '../../components/QuizQuestion';
 import { quizData } from './data'; 
 
 const QuizPage: React.FC = () => {
