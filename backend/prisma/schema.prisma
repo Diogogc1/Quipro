@@ -14,12 +14,14 @@ datasource db {
 }
 
 model User {
-  id             Int      @id @default(autoincrement())
-  email          String   @unique
-  username       String   @unique
-  dateOfBirth    DateTime
-  password       String
+  id          Int      @id @default(autoincrement())
+  email       String   @unique
+  username    String   @unique
+  dateOfBirth DateTime
+  password    String
+  pontuacao   Int      @default(0)
 }
+
 model Aluno {
   id             Int      @id @default(autoincrement())
   email          String   @unique
@@ -38,9 +40,9 @@ model Trilha {
 
 // Modelo para a tabela de capítulos
 model Capitulo {
-  id        Int        @id @default(autoincrement())
+  id        Int     @id @default(autoincrement())
   nome      String
-  concluido Boolean    @default(false)
-  trilhaId  Int        // Chave estrangeira que referencia Trilha
-  trilha    Trilha     @relation(fields: [trilhaId], references: [id])
+  concluido Boolean @default(false)
+  trilhaId  Int // Chave estrangeira que referencia Trilha
+  trilha    Trilha  @relation(fields: [trilhaId], references: [id])
 }

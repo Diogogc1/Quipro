@@ -36,6 +36,16 @@ router.post('/cadastro', async (req, res) => {
     }
 });
 
+// Rota de listagem de usuários
+router.get('/listar', async (req, res) => {
+    try {
+        const users = await prisma.user.findMany();
+        res.status(200).json(users);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to list users' });
+    }
+});
+
 // Rota de login
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
@@ -55,7 +65,7 @@ router.post('/login', async (req, res) => {
             return res.status(400).json({ error: 'Senha incorreta' });
         }
 
-        res.status(200).json({ message: 'Login bem-sucedido', user});
+        res.status(200).json({ message: 'Login bem-sucedido', user });
     } catch (error) {
         res.status(500).json({ error: 'Falha ao fazer login' });
     }
