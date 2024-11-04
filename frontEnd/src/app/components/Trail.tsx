@@ -15,16 +15,17 @@ interface Trilha{
         {
             id: number,
             nome:string,
-            link:string,
             complete: boolean,
-        },
-    ]
+        }
+    ],
+    onChapterClick: (id: number, title: string) => void;
 }
 
 export default function Trail({props}:TrilhaProps)
 {
     const capitulos = props.capitulos;
 
+    //configurações de exibição dos capitulos
     const [limite,setLimite] = useState(4); //Começa limitando mostrar 4 capitulos
     const [mostrarTodos, setMostrarTodos] = useState(false); // Estado que controla se deve exibir todos ou não
 
@@ -58,7 +59,7 @@ export default function Trail({props}:TrilhaProps)
             <div className="mt-6 mb-8 flex flex-col gap-5">
                 {capitulos.slice(0,limite).map(capitulo=>{
                     return(
-                        <Chapter props={capitulo} />
+                        <Chapter props={capitulo} onChapterClick={props.onChapterClick} />
                     )
                 })}
             </div>
