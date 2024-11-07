@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 interface Question {
-    text: string;
+    question: string;
     options: string[];
     correctAnswer: string;
     explanation: string;
@@ -38,7 +38,7 @@ const QuizQuestion: React.FC<QuizQuestionProps> = ({ question, onNextQuestion })
 
     return (
         <div className="w-[600px] text-black flex flex-col mx-auto p-4 bg-white shadow-md rounded-md">
-            <h1 className="text-xl  font-medium mb-3 text-center">{question.text}</h1>
+            <h1 className="text-xl  font-medium mb-3 text-center">{question.question}</h1>
             {question.image && <img src={question.image} alt="Imagem da questão" className="mb-4 mx-auto w-[350px] h-[200px]" />}
 
             <ul className="w-[90%] border-gray-300 p-2 mx-auto">

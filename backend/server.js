@@ -20,6 +20,8 @@ app.use('/trilha', trilhaRouter);
 const capituloRouter = require('./routes/capituloRouter');
 app.use('/capitulo', capituloRouter);
 
+const quizRouter = require('./routes/quizzRouter');
+app.use('/quizz', quizRouter);
 
 app.listen(3001, () => {
     console.log('Server running on port 3001');
