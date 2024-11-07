@@ -17,7 +17,7 @@ interface TrilhaProps
 interface Chapter {
     id: number;
     title: string;
-    completed: boolean;
+    complete: boolean;
 }
 
 
@@ -59,17 +59,10 @@ export default function Trilha({params}:TrilhaProps)
     router.push(`/home/trilha/${nivel}/quizpage`);
     };
 
-    //compactando dados para enviar como parametro
-    const trilha ={
-        nome: nivel,
-        capitulos: chapters,
-        onChapterClick:handleChapterClick
-    }
-
     //gerar pagina
     return(
         <>
-            <Trail props={trilha} />
+            <Trail title={nivel} capitulos={chapters} onChapterClick={handleChapterClick} />
         </>
     )
 

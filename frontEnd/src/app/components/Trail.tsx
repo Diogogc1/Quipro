@@ -5,25 +5,20 @@ import { ArrowLeft } from "phosphor-react";
 import Chapter from "./Chapter";
 import { useState } from "react";
 
-interface TrilhaProps{
-    props:Trilha;
+interface Capitulo{
+    id: number,
+    title:string,
+    complete?: boolean;
 }
 
-interface Trilha{
-    nome:string,
-    capitulos:[
-        {
-            id: number,
-            nome:string,
-            complete: boolean,
-        }
-    ],
+interface TrilhaProps{
+    title:string,
+    capitulos:Capitulo[],
     onChapterClick: (id: number, title: string) => void;
 }
 
-export default function Trail({props}:TrilhaProps)
+export default function Trail({title, capitulos, onChapterClick}:TrilhaProps)
 {
-    const capitulos = props.capitulos;
 
     //configurações de exibição dos capitulos
     const [limite,setLimite] = useState(4); //Começa limitando mostrar 4 capitulos
@@ -46,7 +41,7 @@ export default function Trail({props}:TrilhaProps)
                 <p className="text-zinc-500 text-sm leading-snug">Voltar</p>
             </Link>
             <h1 className="text-zinc-400 text-[2rem] font-bold leading-10">
-                Trilha {props.nome}
+                Trilha {title}
             </h1>
             <div className="flex justify-between mt-">
                 <h2 className="text-zinc-500 text-xl font-medium leading-7 mt-6">
@@ -59,7 +54,12 @@ export default function Trail({props}:TrilhaProps)
             <div className="mt-6 mb-8 flex flex-col gap-5">
                 {capitulos.slice(0,limite).map(capitulo=>{
                     return(
-                        <Chapter props={capitulo} onChapterClick={props.onChapterClick} />
+                        <Chapter 
+                            id={capitulo.id} 
+                            title={capitulo.title} 
+                            complete={capitulo.complete} 
+                            functionClick={onChapterClick} 
+                        />
                     )
                 })}
             </div>
