@@ -10,7 +10,7 @@ interface ChapterProps{
     id:number,
     title:string,
     complete?:boolean,
-    functionClick: (id: number, title: string) => void;
+    functionClick: (id: number) => void;
 }
 
 export default function Chapter({id, title, complete=false, functionClick}:ChapterProps)
@@ -20,8 +20,8 @@ export default function Chapter({id, title, complete=false, functionClick}:Chapt
     return(
             <div 
                 key={id}
-                onClick={()=> functionClick(id, title)} // Chama a função ao clicar
-                className={`w-full h-[6.5rem] p-6 bg-zinc-800 rounded-xl border ${!complete ? 'border-zinc-700': 'border-green-500'} flex justify-between items-center`}
+                onClick={()=> functionClick(id)} // Chama a função ao clicar
+                className={`w-full h-[6.5rem] p-6 cursor-pointer bg-zinc-800 rounded-xl border ${!complete ? 'border-zinc-700': 'border-green-500'} flex justify-between items-center`}
             >
                 <div className="flex items-center gap-2.5">
                     <div className="w-14 h-14 bg-zinc-900 rounded-xl border border-zinc-700 flex items-center justify-center">

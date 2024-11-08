@@ -14,7 +14,7 @@ interface Capitulo{
 interface TrilhaProps{
     title:string,
     capitulos:Capitulo[],
-    onChapterClick: (id: number, title: string) => void;
+    onChapterClick: (id: number) => void;
 }
 
 export default function Trail({title, capitulos, onChapterClick}:TrilhaProps)
