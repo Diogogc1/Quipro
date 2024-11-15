@@ -1,3 +1,4 @@
+import {CaretCircleRight } from 'phosphor-react';
 import React, { useState } from 'react';
 
 interface Question {
@@ -36,25 +37,35 @@ const QuizQuestion: React.FC<QuizQuestionProps> = ({ question, onNextQuestion })
         onNextQuestion(); // Chama a função para a próxima questão
     };
 
-    return (
-        <div className="w-[600px] text-black flex flex-col mx-auto p-4 bg-white shadow-md rounded-md">
-            <h1 className="text-xl  font-medium mb-3 text-center">{question.question}</h1>
-            {question.image && <img src={question.image} alt="Imagem da questão" className="mb-4 mx-auto w-[350px] h-[200px]" />}
+    const letrasAlternativas = ["a", "b", "c", "d", "e", "f"];
 
-            <ul className="w-[90%] border-gray-300 p-2 mx-auto">
+    return (
+        <div className="border border-zinc-700 min-h-[calc(100%-64px)] mb-16  w-full sm:w-9/12 md:w-9/12  lg:w-[31.625rem] text-zinc-300 flex flex-col items-center mx-auto p-8 bg-zinc-800 rounded-md">
+
+            <h1 className="text-xl w-full font-bold mb-7 text-justify">{question.question}</h1>
+            {question.image && <img src={question.image} alt="Imagem da questão" loading="lazy" className="mb-4 mx-auto w-full h-[200px] rounded-xl" />}
+
+            <ul className="w-full py-2 mx-auto">
                 {question.options.map((option, index) => (
                     <li
                         key={index}
-                        className={`mb-2 border p-2 cursor-pointer ${selectedOption === option ? 'bg-gray-200' : ''}`}
+                        className={`flex items-stretch gap-3 mb-2 border min-h-12 border-zinc-700 rounded-xl px-2 cursor-pointer ${selectedOption === option ? 'bg-violet-600 text-white' : ''}`}
                         onClick={() => !checked && setSelectedOption(option)} // Permite selecionar apenas antes de checar
                     >
-                        <span dangerouslySetInnerHTML={{ __html: option }}></span>
+                        <p className='border-r flex items-center justify-center w-9 border-zinc-700 font-bold text-xl '>{letrasAlternativas[index]}</p>
+                        <span className='flex-1 self-center text-zinc-400' dangerouslySetInnerHTML={{ __html: option }}></span>
                     </li>
                 ))}
             </ul>
 
             {feedback && (
-                <div className="mt-4 p-2 border w-[80%] mx-auto border-gray-300 rounded bg-gray-100">
+                <div 
+                    className={`mt-4 p-4 w-full mx-auto rounded-lg border-l-4 text-justify ${
+                    selectedOption === question.correctAnswer
+                        ? 'border-l-emerald-500 bg-emerald-50/10 text-emerald-400'
+                        : 'border-l-red-500 bg-red-50/10 text-red-400'
+                    } transition-all duration-300 ease-in-out shadow-lg`}
+                >
                     <span dangerouslySetInnerHTML={{ __html: feedback }}></span>
                 </div>
             )}
@@ -62,10 +73,13 @@ const QuizQuestion: React.FC<QuizQuestionProps> = ({ question, onNextQuestion })
             <div className="mt-4 text-center">
                 <button
                     onClick={checked ? handleNextQuestion : handleCheckAnswer}  // Alterna entre Responder ou Próxima
-                    className={`px-4 py-2 rounded text-white ${checked ? 'bg-blue-500 hover:bg-blue-600' : 'bg-green-500 hover:bg-green-600'}`}
+                    className={`px- h-10 rounded-2xl w-32 text-white cursor-pointer ${checked ? ' hover:bg-zinc-700 border ' : 'bg-violet-600 hover:bg-violet-500'}`}
                     disabled={!selectedOption}  // Desabilita até selecionar uma opção
                 >
-                    {checked ? 'Próxima' : 'Responder'}  {/* Alterna o texto */}
+                    {checked ? (<div className=' flex items-center justify-between ml-5'>
+                        <p>Próxima</p> 
+                        <CaretCircleRight weight='fill' size={35} />
+                    </div>) : 'Responder'}  {/* Alterna o texto */}
                 </button>
             </div>
         </div>

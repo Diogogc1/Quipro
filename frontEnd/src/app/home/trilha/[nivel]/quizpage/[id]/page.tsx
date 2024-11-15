@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import QuizQuestion from '../../../../../components/QuizQuestion';
 import { notFound } from 'next/navigation';
+import { ArrowLeft } from 'phosphor-react';
+import { useRouter } from 'next/navigation';
 
 interface QuizPageProps{
     params:{
@@ -16,6 +18,8 @@ const QuizPage: React.FC<QuizPageProps> = ({params}) => {
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [questions, setQuestions] = useState<any[]>([]); // Use 'any' ou defina um tipo adequado
     const [isLoading, setIsLoading] = useState(true); // Estado para carregar
+
+    const router = useRouter();
 
     useEffect(() => {
        
@@ -64,7 +68,11 @@ const QuizPage: React.FC<QuizPageProps> = ({params}) => {
     }
 
     return (
-        <div>
+        <div className='h-full'>
+            <button onClick={()=>router.back()} className="flex gap-1 items-center">
+                <ArrowLeft size={"1rem"} className="text-zinc-500" />
+                <p className="text-zinc-500 text-sm leading-snug">Voltar</p>
+            </button>
             {questions.length > 0 && currentQuestionIndex < questions.length ? (
                 <QuizQuestion
                     question={questions[currentQuestionIndex]} // Passa a pergunta atual para o componente
