@@ -1,11 +1,17 @@
-import { ImgHTMLAttributes } from "react";
+import { parseCookies } from "nookies";
 
-export function Avatar({...props}:ImgHTMLAttributes<HTMLImageElement>)
+
+export function Avatar()
 {
+    //recebendo userName que esta armazenado no cookie
+    const cookies = parseCookies();
+    const userName = cookies.userName;
+
     return(
-        <img 
-            className="h-10 w-10 rounded-full border border-zinc-700" 
-            {...props}
-        />
+        <div className="w-10 h-10 bg-lime-400 rounded-full flex items-center justify-center border border-zinc-700">
+                    <span className="text-zinc-800 font-bold text-lg">
+                      {userName?.[0]?.toUpperCase() || "U"}
+                    </span>
+        </div>
     )
 }
