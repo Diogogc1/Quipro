@@ -93,6 +93,24 @@ router.post('/logout', async (req, res) => {
     }
 })
 
+//Rota para buscar o ranking
+router.get('/ranking', async (req, res) => {
+    try {
+        const users = await prisma.user.findMany({
+            select: {
+                userName: true,
+                ranking: true
+            },
+            orderBy: {
+                ranking: 'desc'
+            }
+        });
 
+        res.status(200).json(users);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Erro ao buscar o ranking' });
+    }
+})
 
 module.exports = router;

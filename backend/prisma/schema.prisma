@@ -21,7 +21,7 @@ model User {
   dateBirth  DateTime  // Data de nascimento
   userImage  String?   // URL da imagem do usuário (opcional)
   progress   Progress[]  // Relacionamento com progresso
-  ranking    Ranking?   // Relacionamento 1-1 com Ranking (opcional)
+  ranking    Int
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
 
@@ -80,14 +80,14 @@ model Progress {
   @@map("progress")
 }
 
-model Ranking {
-  id        Int      @id @default(autoincrement())
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    Int      @unique // Garante que o usuário tenha apenas um ranking único
-  points    Int      @default(0)  // Pontos acumulados
+// model Ranking {
+//   id        Int      @id @default(autoincrement())
+//   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+//   userId    Int      @unique // Garante que o usuário tenha apenas um ranking único
+//   points    Int      @default(0)  // Pontos acumulados
 
-  @@map("ranking")
-}
+//   @@map("ranking")
+// }
 //   id             Int      @id @default(autoincrement())
 //   email          String   @unique
 //   username       String   @unique
