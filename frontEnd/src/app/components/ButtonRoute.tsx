@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Play, TestTube, Medal } from "phosphor-react";
+import { useRouter } from "next/navigation";
 
 interface ButtonRouteProps{
     name:string,
@@ -10,6 +11,7 @@ interface ButtonRouteProps{
 }
 
 export function ButtonRoute({name, type, link}:ButtonRouteProps) {
+  const router = useRouter();
 
   const icons = {
     Play: Play,
@@ -18,6 +20,10 @@ export function ButtonRoute({name, type, link}:ButtonRouteProps) {
   };
 
   const IconComponent = icons[type];
+
+  function handleClick() {
+    router.push(`/home/trilha/${name}`);
+  };
 
   return (
     <Link href={link}>

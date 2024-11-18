@@ -26,7 +26,13 @@ app.use('/trilha', trilhaRouter);
 const capituloRouter = require('./src/routes/capituloRouter');
 app.use('/capitulo', capituloRouter);
 
-const quizRouter = require('./src/routes/quizzRouter');
+// const alunoRouter = require('./routes/alunoRouter');
+// app.use('/aluno', alunoRouter);
+
+const trilhaRouter = require('./routes/trilhaRouter');
+app.use('/trilha', trilhaRouter);
+
+const quizRouter = require('./routes/quizzRouter');
 app.use('/quizz', quizRouter);
 
 app.listen(3001, () => {

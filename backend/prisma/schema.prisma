@@ -101,3 +101,20 @@ model Ranking {
 //   dataNascimento DateTime
 //   senha          String
 // }
+
+// // Modelo para a tabela de trilhas
+// model Trilha {
+//   id        Int        @id @default(autoincrement())
+//   nome      String
+//   concluida Boolean    @default(false)
+//   capitulos Capitulo[] // Relacionamento de 1 para N com capítulos
+// }
+
+// // Modelo para a tabela de capítulos
+// model Capitulo {
+//   id        Int        @id @default(autoincrement())
+//   nome      String
+//   concluido Boolean    @default(false)
+//   trilhaId  Int        // Chave estrangeira que referencia Trilha
+//   trilha    Trilha     @relation(fields: [trilhaId], references: [id])
+// }

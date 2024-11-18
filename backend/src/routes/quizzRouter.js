@@ -5,6 +5,7 @@ const prisma = new PrismaClient();
 
 router.post('/', async (req, res) => {
     const { id } = req.body; // Pegando o chapterId do corpo da requisição
+
     try {
         const quizzes = await prisma.quiz.findMany({
             where: {
