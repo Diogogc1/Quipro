@@ -69,7 +69,7 @@ const QuizPage: React.FC<QuizPageProps> = ({params}) => {
 
     return (
         <div className='h-full'>
-            <button onClick={()=>router.back()} className="flex gap-1 items-center">
+            <button onClick={()=>router.back()} className="absolute top-24 flex gap-1 items-center sm:top-[7.5rem]">
                 <ArrowLeft size={"1rem"} className="text-zinc-500" />
                 <p className="text-zinc-500 text-sm leading-snug">Voltar</p>
             </button>

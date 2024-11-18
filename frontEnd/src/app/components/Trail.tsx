@@ -52,7 +52,7 @@ export default function Trail({title, capitulos, onChapterClick}:TrilhaProps)
                 </button>
             </div>
             <div className="mt-6 mb-8 flex flex-col gap-5">
-                {capitulos.slice(0,limite).map(capitulo=>{
+                {capitulos?.slice(0,limite).map(capitulo=>{
                     return(
                         <Chapter 
                             id={capitulo.id} 

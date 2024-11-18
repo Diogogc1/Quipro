@@ -37,16 +37,26 @@ export default function Trilha({params}:TrilhaProps)
 
     useEffect(() => {
         const fetchChapters = async () => {
-          const response = await fetch('http://localhost:3001/trilha/capitulos', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ name: nivel }),
-          });
-    
-          const data = await response.json();
-          setChapters(data.chapters);
+            try {
+                const response = await fetch('http://localhost:3001/trilha/capitulos', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ name: nivel }),
+                  });
+        
+                  if (response.ok) {
+                    const data = await response.json();
+                    setChapters(Array.isArray(data.chapters) ? data.chapters : []);
+                  }
+                  else{
+                    console.log("Erro na requisição de capitulos da trilha");
+                  }
+            } catch (error) {
+                console.error("Erro na requisição:", error);
+            }
+          
         };
     
         fetchChapters();

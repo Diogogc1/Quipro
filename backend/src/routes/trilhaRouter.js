@@ -8,6 +8,11 @@ router.post('/capitulos', async (req, res) => {
     const { name } = req.body; // Pegando o nome do corpo da requisição
     console.log('Requisição recebida no /capitulos:', req.body);
   
+    //verificando se name é vazio
+    if (!name) {
+      return res.status(400).json({ message: 'Parâmetro "name" ausente na requisição' });
+    }
+
     try {
       const trilha = await prisma.trail.findUnique({
         where: {

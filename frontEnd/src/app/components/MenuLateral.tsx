@@ -1,8 +1,9 @@
 "use client";
 
 import { useRouter, usePathname } from 'next/navigation';
-import {House, Question, Trophy, List, X} from 'phosphor-react';
+import {House, SignOut, Trophy, List, X} from 'phosphor-react';
 import { useState } from 'react';
+import { LogoutButton } from './LogoutButton';
 
 
 export function MenuLateral()
@@ -54,12 +55,9 @@ export function MenuLateral()
                     <p className={`text-zinc-500 text-base font-normal ${isExpanded || 'md:block hidden'}`}>Ranking</p>
                 </button>
             </div>
-            <div className=" w-full flex justify-between flex-grow flex-col-reverse">
-                <div className={`${isExpanded || 'md:block hidden'} w-[168px] flex justify-center`}>
-                    <button className="px-3 py-2 items-center gap-3 inline-flex text-zinc-500">
-                        <Question className="w-8 h-8" />
-                        <p>Ajuda</p>
-                    </button>
+            <div className="w-full flex flex-grow flex-col-reverse items-center">
+                <div className={`${isExpanded || 'md:block hidden'} w-[168px] text-zinc-500 hover:text-red-500 hover:border-red-500 transition-colors duration-300 ease-in-out`}>
+                    <LogoutButton />
                 </div>
             </div>
         </aside>

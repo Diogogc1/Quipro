@@ -1,4 +1,4 @@
-import {CaretCircleRight } from 'phosphor-react';
+import {ArrowRight } from 'phosphor-react';
 import React, { useState } from 'react';
 
 interface Question {
@@ -40,7 +40,7 @@ const QuizQuestion: React.FC<QuizQuestionProps> = ({ question, onNextQuestion })
     const letrasAlternativas = ["a", "b", "c", "d", "e", "f"];
 
     return (
-        <div className="border border-zinc-700 min-h-[calc(100%-64px)] mb-16  w-full sm:w-9/12 md:w-9/12  lg:w-[31.625rem] text-zinc-300 flex flex-col items-center mx-auto p-8 bg-zinc-800 rounded-md">
+        <div className="border border-zinc-700 min-h-[calc(100vh-(5rem+2.5rem))]  w-full sm:w-9/12 md:w-9/12  lg:w-[31.625rem] text-zinc-300 flex flex-col items-center mx-auto p-8 bg-zinc-800 rounded-md">
 
             <h1 className="text-xl w-full font-bold mb-7 text-justify">{question.question}</h1>
             {question.image && <img src={question.image} alt="Imagem da questão" loading="lazy" className="mb-4 mx-auto w-full h-[200px] rounded-xl" />}
@@ -60,25 +60,25 @@ const QuizQuestion: React.FC<QuizQuestionProps> = ({ question, onNextQuestion })
 
             {feedback && (
                 <div 
-                    className={`mt-4 p-4 w-full mx-auto rounded-lg border-l-4 text-justify ${
+                    className={`mt-4 p-4 w-full mx-auto rounded-lg border-l-4 text-justify bg-zinc-700 ${
                     selectedOption === question.correctAnswer
-                        ? 'border-l-emerald-500 bg-emerald-50/10 text-emerald-400'
-                        : 'border-l-red-500 bg-red-50/10 text-red-400'
+                        ? 'border-green-500 text-green-500'
+                        : 'border-l-red-500 text-red-500'
                     } transition-all duration-300 ease-in-out shadow-lg`}
                 >
                     <span dangerouslySetInnerHTML={{ __html: feedback }}></span>
                 </div>
             )}
 
-            <div className="mt-4 text-center">
+            <div className="mt-4 text-center font-bold">
                 <button
                     onClick={checked ? handleNextQuestion : handleCheckAnswer}  // Alterna entre Responder ou Próxima
-                    className={`px- h-10 rounded-2xl w-32 text-white cursor-pointer ${checked ? ' hover:bg-zinc-700 border ' : 'bg-violet-600 hover:bg-violet-500'}`}
+                    className={`px- h-12 rounded-full w-[8.375rem] text-white cursor-pointer ${checked ? 'w-[9.4375rem] border-lime-400 hover:bg-zinc-700 border ' : 'bg-violet-600 hover:bg-violet-500'}`}
                     disabled={!selectedOption}  // Desabilita até selecionar uma opção
                 >
-                    {checked ? (<div className=' flex items-center justify-between ml-5'>
-                        <p>Próxima</p> 
-                        <CaretCircleRight weight='fill' size={35} />
+                    {checked ? (<div className='flex items-center justify-center gap-[0.625rem]'>
+                        <p className='font-normal'>Próxima</p> 
+                        <ArrowRight size={35} />
                     </div>) : 'Responder'}  {/* Alterna o texto */}
                 </button>
             </div>
