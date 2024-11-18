@@ -37,7 +37,7 @@ const QuizQuestion: React.FC<QuizQuestionProps> = ({ question, onNextQuestion })
         onNextQuestion(); // Chama a função para a próxima questão
     };
 
-    const letrasAlternativas = ["a", "b", "c", "d", "e", "f"];
+    const lettersAlternatives = ["a", "b", "c", "d", "e", "f"];
 
     return (
         <div className="border border-zinc-700 min-h-[calc(100vh-(5rem+2.5rem))]  w-full sm:w-9/12 md:w-9/12  lg:w-[31.625rem] text-zinc-300 flex flex-col items-center mx-auto p-8 bg-zinc-800 rounded-md">
@@ -52,7 +52,7 @@ const QuizQuestion: React.FC<QuizQuestionProps> = ({ question, onNextQuestion })
                         className={`flex items-stretch gap-3 mb-2 border min-h-12 border-zinc-700 rounded-xl px-2 cursor-pointer ${selectedOption === option ? 'bg-violet-600 text-white' : ''}`}
                         onClick={() => !checked && setSelectedOption(option)} // Permite selecionar apenas antes de checar
                     >
-                        <p className='border-r flex items-center justify-center w-9 border-zinc-700 font-bold text-xl '>{letrasAlternativas[index]}</p>
+                        <p className='border-r flex items-center justify-center w-9 border-zinc-700 font-bold text-xl '>{lettersAlternatives[index]}</p>
                         <span className='flex-1 self-center text-zinc-400' dangerouslySetInnerHTML={{ __html: option }}></span>
                     </li>
                 ))}
