@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useContext, useState } from "react";
 import { useRouter } from "next/navigation";
 import { UserContext } from "@/contexts/userContext";
+import { setCookie } from "nookies";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -17,6 +18,7 @@ export default function Login() {
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // Evita o reload da página
 
+    // Requisição para o back-end
     try {
       const response = await fetch("http://localhost:3001/usuario/login", {
         method: "POST",
@@ -26,26 +28,31 @@ export default function Login() {
         body: JSON.stringify({ email, password }), // Envia o email e a senha ao backend
       });
 
-      const data = await response.json();
-
       if (response.ok) {
         // Sucesso no login
-        console.log("Login bem-sucedido", data);
+        const {token, user} = await response.json();
 
         //SALVAR NO CONTEXTO
-        const user = {
-          id: data.id,
-          email: data.email,
-          name: data.name,
+        const userContext = {
+          id: user.id,
+          email: user.email,
+          name: user.name,
         }
 
-        atualizarUsuarioLogado(user);
+        atualizarUsuarioLogado(userContext);
 
-        // Redirecionar ou realizar outra ação
+        // Armazene o token em um cookie
+        setCookie(null, 'authToken', token, {
+          maxAge: 60 * 60, // 1 hora
+          path: '/', // Disponível em todo o site
+          sameSite: 'lax',
+        });
+
+        // Redirecionar para home page
         router.push("/home");
       } else {
         // Exibir mensagem de erro
-        setErrorMessage(data.error || "Erro desconhecido");
+        setErrorMessage("Erro desconhecido");
       }
     } catch (error) {
       setErrorMessage("Falha ao fazer login. Tente novamente.");

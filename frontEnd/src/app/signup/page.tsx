@@ -18,7 +18,7 @@ const signUpFormValidationSchema = zod
   .object({
     email: zod.string().email("E-mail inválido"),
     userName: zod.string().min(3, "Nome tem que ter pelo menos 3 caracteres"),
-    dateOfBirth: zod.string().refine((value) => {
+    dateBirth: zod.string().refine((value) => {
       return !isNaN(Date.parse(value));
     }, "Data de nascimento inválida"),
     password: zod.string().min(6, "A senha deve ter pelo menos 6 caracteres"),
@@ -47,6 +47,8 @@ export default function SignUp() {
 
   const onSubmit = async (data: SignUpFormData) => {
     try {
+      alert('Entrando em onSubmit');
+      alert(JSON.stringify(data, null, 2));
       const response = await fetch("http://localhost:3001/usuario/cadastro", {
         method: "POST",
         headers: {
@@ -56,10 +58,12 @@ export default function SignUp() {
       });
 
       if (response.ok) {
+        alert('(Usuario cadastrado');
         const result = await response.json();
         console.log("User created:", result);
         router.push("../login"); // Redirecionando usuario para a tela de login
       } else {
+        alert('Usuario nao cadastrado: '+ response.status);
         const error = await response.json();
         console.error("Failed to create user:", error);
         // Aqui você pode exibir uma mensagem de erro
@@ -105,16 +109,16 @@ export default function SignUp() {
 
           <div className="relative w-full group">
             <input
-              id="dateOfBirth"
+              id="dateBirth"
               type="date"
               placeholder="dd/mm/yyyy"
               className="text-gray-500 w-full h-12 font-roboto bg-zinc-900 border-zinc-700 text-xl p-4 pl-14 pr-4 border-solid border rounded-full focus:outline-none focus:border-violet-600"
-              {...register("dateOfBirth")}
+              {...register("dateBirth")}
             />
             <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
               <CalendarBlank className="text-gray-500 transition-colors group-focus-within:text-lime-400" size={24} />
             </div>
-            {errors.dateOfBirth && <span>{errors.dateOfBirth.message}</span>}
+            {errors.dateBirth && <span>{errors.dateBirth.message}</span>}
           </div>
 
           <div className="relative w-full group">
@@ -148,15 +152,14 @@ export default function SignUp() {
           </div>
         </div>
         <div className="flex items-center mt-8 gap-4">
-          <Link href={'../login'}>
             <button
-              type="submit"
+            onClick={()=>router.back()}
+              type="button"
               className="flex items-center justify-center gap-3 w-[15.0625rem] h-[3rem] border border-lime-400 px-4 py-[0.625rem] text-white rounded-full hover:border-lime-300 transition-colors duration-200"
             >
               <ArrowLeft size={24} />
               Voltar
             </button>
-          </Link>
 
           <button
             type="submit"

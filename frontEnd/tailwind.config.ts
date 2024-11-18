@@ -12,7 +12,17 @@ const config: Config = {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
-    },
+      animation: {
+        progress: "progress 0.5s ease-out infinite", // Nome da animação
+      },
+      keyframes: {
+        progress: {
+          '0%': { width: '0%' },
+          '50%': { width: '50%' },
+          '100%': { width: '100%' },
+        },
+      },
+    }
   },
   plugins: [],
 };
