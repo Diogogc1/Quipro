@@ -64,7 +64,7 @@ router.post('/login', async (req, res) => {
         //gerando token
         const token = jwtConfig.generateToken(user.id);
 
-        res.status(200).json({ token, user});
+        res.status(200).json({ token, userId: user.id});
     } catch (error) {
         res.status(500).json({ error: 'Falha ao fazer login' });
     }

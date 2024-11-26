@@ -16,9 +16,6 @@ const env = require('dotenv').config();
 const usuarioRouter = require('./src/routes/usuarioRouter');
 app.use('/usuario', usuarioRouter);
 
-const alunoRouter = require('./src/routes/alunoRouter');
-app.use('/aluno', alunoRouter);
-
 // Trilhas e capítulos
 const trilhaRouter = require('./src/routes/trilhaRouter');
 app.use('/trilha', trilhaRouter);

@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { User } from "phosphor-react";
-import { UserContextProvider } from "@/contexts/userContext";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -30,9 +28,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <UserContextProvider>
-          {children}
-        </UserContextProvider>
+        {children}
       </body>
     </html>
   );

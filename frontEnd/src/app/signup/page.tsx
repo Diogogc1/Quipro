@@ -12,7 +12,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import Link from 'next/link';
 
 const signUpFormValidationSchema = zod
   .object({
@@ -47,8 +46,6 @@ export default function SignUp() {
 
   const onSubmit = async (data: SignUpFormData) => {
     try {
-      alert('Entrando em onSubmit');
-      alert(JSON.stringify(data, null, 2));
       const response = await fetch("http://localhost:3001/usuario/cadastro", {
         method: "POST",
         headers: {
@@ -58,7 +55,7 @@ export default function SignUp() {
       });
 
       if (response.ok) {
-        alert('(Usuario cadastrado');
+        alert('Usuario cadastrado');
         const result = await response.json();
         console.log("User created:", result);
         router.push("../login"); // Redirecionando usuario para a tela de login

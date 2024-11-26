@@ -5,6 +5,7 @@ import { SignOut } from "phosphor-react";
 export function LogoutButton() {
   const cookies = parseCookies();
   const token = cookies.authToken; // Aqui você pega o token armazenado no cookie
+  const id = cookies.idUser;
   const router = useRouter();
 
   const handleLogout = async () => {
@@ -18,8 +19,9 @@ export function LogoutButton() {
         },
       });
       if (response.ok) {
-        //Remoção do cookie
+        //Remoção dos cookies
         destroyCookie(null, "authToken");
+        destroyCookie(null, "idUser");
 
         // Redirecionar para Home
         router.push("/");

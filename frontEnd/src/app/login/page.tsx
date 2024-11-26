@@ -3,9 +3,8 @@
 import { EnvelopeSimple, LockSimple } from "phosphor-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { UserContext } from "@/contexts/userContext";
 import { setCookie } from "nookies";
 
 export default function Login() {
@@ -13,7 +12,6 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
-  const { atualizarUsuarioLogado } = useContext(UserContext);
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // Evita o reload da página
@@ -30,16 +28,15 @@ export default function Login() {
 
       if (response.ok) {
         // Sucesso no login
-        const {token, user} = await response.json();
+        const {token, userId} = await response.json();
 
-        //SALVAR NO CONTEXTO
-        const userContext = {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-        }
 
-        atualizarUsuarioLogado(userContext);
+        // Armazene o token em um cookie
+        setCookie(null, 'idUser', userId, {
+          maxAge: 60 * 60, // 1 hora
+          path: '/', // Disponível em todo o site
+          sameSite: 'lax',
+        });
 
         // Armazene o token em um cookie
         setCookie(null, 'authToken', token, {
