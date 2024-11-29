@@ -34,6 +34,8 @@ export default function Home() {
           </a>
         </div>
       </main>
+      
+      {/* footer que não será implementado no momento
       <footer className="absolute bottom-4 flex gap-6 flex-wrap items-center justify-center">
         <a
           className="flex items-center gap-2 hover:underline hover:underline-offset-4"
@@ -79,7 +81,7 @@ export default function Home() {
           />
           Redes Sociais
         </a>
-      </footer>
+      </footer> */}
     </div>
   );
 }

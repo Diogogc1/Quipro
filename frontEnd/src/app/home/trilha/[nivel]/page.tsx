@@ -43,7 +43,7 @@ export default function Trilha({params}:TrilhaProps)
                     headers: {
                       'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ name: nivel }),
+                     body: JSON.stringify({ name: nivel }),
                   });
         
                   if (response.ok) {

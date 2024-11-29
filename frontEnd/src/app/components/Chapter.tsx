@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { CheckCircle, Circle } from "phosphor-react";
 
 interface Chapter{
