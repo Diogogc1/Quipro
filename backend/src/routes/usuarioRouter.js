@@ -7,6 +7,17 @@ const prisma = new PrismaClient();
 const bcrypt = require('bcrypt');
 const jwtConfig = require('../config/jwtConfig');
 
+router.get('/ranking', async (req, res) => {
+    const ranking = await prisma.user.findMany({
+        select: {
+            nome: true,
+            ranking: true
+        },
+        orderBy: {
+            ranking: 'desc'
+        }
+    })
+})
 
 router.post('/cadastro', async (req, res) => {
     const { email, userName, dateBirth, password } = req.body;
