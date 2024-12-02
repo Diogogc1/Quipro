@@ -1,11 +1,12 @@
+"use client"
+
+import { useState } from "react";
 import { ButtonRoute } from "../components/ButtonRoute";
 import { TrailCard } from "../components/TrailCard";
 
-//foto temporaria enquanto nao puxa do banco de dados
-const usuarioLogado = "https://github.com/AugustoRibeiro7.png";
 
 export default function Home() {
-
+    
     return (
         <>
             <div>

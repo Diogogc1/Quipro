@@ -1,22 +1,22 @@
 "use client";
 
-import { EnvelopeSimple, LockSimple } from "phosphor-react";
+import { ArrowLeft, EnvelopeSimple, LockSimple } from "phosphor-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { UserContext } from "@/contexts/userContext";
+import { setCookie } from "nookies";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
-  const { atualizarUsuarioLogado } = useContext(UserContext);
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // Evita o reload da página
 
+    // Requisição para o back-end
     try {
       const response = await fetch("http://localhost:3001/usuario/login", {
         method: "POST",
@@ -26,26 +26,30 @@ export default function Login() {
         body: JSON.stringify({ email, password }), // Envia o email e a senha ao backend
       });
 
-      const data = await response.json();
-
       if (response.ok) {
         // Sucesso no login
-        console.log("Login bem-sucedido", data);
+        const {token, userId} = await response.json();
 
-        //SALVAR NO CONTEXTO
-        const user = {
-          id: data.id,
-          email: data.email,
-          name: data.name,
-        }
 
-        atualizarUsuarioLogado(user);
+        // Armazene o token em um cookie
+        setCookie(null, 'idUser', userId, {
+          maxAge: 60 * 60, // 1 hora
+          path: '/', // Disponível em todo o site
+          sameSite: 'lax',
+        });
 
-        // Redirecionar ou realizar outra ação
+        // Armazene o token em um cookie
+        setCookie(null, 'authToken', token, {
+          maxAge: 60 * 60, // 1 hora
+          path: '/', // Disponível em todo o site
+          sameSite: 'lax',
+        });
+
+        // Redirecionar para home page
         router.push("/home");
       } else {
         // Exibir mensagem de erro
-        setErrorMessage(data.error || "Erro desconhecido");
+        setErrorMessage("Erro desconhecido");
       }
     } catch (error) {
       setErrorMessage("Falha ao fazer login. Tente novamente.");
@@ -99,12 +103,15 @@ export default function Login() {
               Esqueceu sua senha?
             </button>
             <div className="flex w-full gap-4">
-              <button
-                type="button"
-                className="w-[15.0625rem] h-[3rem] border border-lime-400 px-4 py-[0.625rem] text-white rounded-full hover:border-lime-300 transition-colors duration-200"
-              >
-                Entrar com o Google
-              </button>
+              <Link href={'../'}>
+                <button
+                  type="button"
+                  className="flex items-center justify-center gap-1 w-[15.0625rem] h-[3rem] border border-lime-400 px-4 py-[0.625rem] text-white rounded-full hover:border-lime-300 transition-colors duration-200"
+                >
+                  <ArrowLeft size={24} />
+                  Voltar
+                </button>
+              </Link>
               <button
                 type="submit"
                 className="w-[15.0625rem] h-[3rem] bg-violet-600 px-4 py-[0.625rem] text-white font-bold rounded-full hover:bg-violet-500 transition-colors duration-200"
