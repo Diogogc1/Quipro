@@ -1,9 +1,12 @@
 'use client';
+
 import React, { useEffect, useState } from 'react';
 import QuizQuestion from '../../../../../components/QuizQuestion';
 import { notFound } from 'next/navigation';
 import { ArrowLeft } from 'phosphor-react';
 import { useRouter } from 'next/navigation';
+import { parseCookies } from "nookies"; //importando cookies
+import { useScore } from '@/contexts/ScoreContext'; // Importando o contexto
 
 interface QuizPageProps{
     params:{
@@ -18,11 +21,44 @@ const QuizPage: React.FC<QuizPageProps> = ({params}) => {
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [questions, setQuestions] = useState<any[]>([]); // Use 'any' ou defina um tipo adequado
     const [isLoading, setIsLoading] = useState(true); // Estado para carregar
+    const { score, setScore, incrementScore } = useScore(); // Usando o contexto de Score
+
+    const [currentQuizScore, setCurrentQuizScore] = useState(0);
+
+
+    //recebendo id do usuario que esta armazenado no cookie
+    const cookies = parseCookies();
+    const userId = cookies.idUser;
 
     const router = useRouter();
 
+    // // Função para buscar a pontuação do usuário
+    // const fetchScore = async () => {
+    //     if (userId){
+    //         try {
+    //         const response = await fetch(`http://localhost:3001/usuario/${userId}/points`, {
+    //             method: 'GET',
+    //             headers: {
+    //             'Content-Type': 'application/json',
+    //             },
+    //         });
+
+    //         const data = await response.json();
+    //         if (data && data.score !== undefined) {
+    //             setScore(data.score); // Atualiza a pontuação do usuário
+    //         }
+    //         } catch (error) {
+    //         console.error('Erro ao carregar a pontuação:', error);
+    //         }
+    //     }
+    //   };
+
+    
     useEffect(() => {
        
+        // Chama a função para buscar a pontuação assim que o componente for montado
+        // fetchScore();
+
         const fetchQuestions = async () => {
             try{
                 const id = Number(params.id); // Aqui converte 'id' para número
@@ -47,10 +83,41 @@ const QuizPage: React.FC<QuizPageProps> = ({params}) => {
 
         fetchQuestions();
 
-    }, [id]); // Dispara a busca apenas quando o ID está disponível
+    }, [id, userId]); // Dependências incluem 'id' e 'userId' para garantir que as mudanças sejam tratadas
 
-    const handleNextQuestion = () => {
+
+    // Função para atualizar pontuação no backend
+    const updateUserPoints = async (userId: number, points: number) => {
+        try {
+            const response = await fetch('http://localhost:3001/usuario/update-user-points', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ userId, points }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Erro ao atualizar pontuação do usuário');
+            }
+            console.log('Pontuação atualizada com sucesso!');
+        } catch (error) {
+            console.error('Erro ao salvar a pontuação:', error);
+        }
+    };
+
+
+    const handleNextQuestion = async () => {
+        if (currentQuestionIndex + 1 === questions.length) {
+            await updateUserPoints(Number(userId), score); // Atualiza pontuação ao finalizar
+        }
         setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+    };
+
+    //função para adicionar pontuação(atomos)
+    const handleCorrectAnswer = () => {
+        incrementScore(); // Usa a função do contexto para incrementar a pontuação
+        setCurrentQuizScore((prev) => prev + 1); // Incrementa a pontuação do quiz atual
     };
 
     /* Barra de progresso */
@@ -77,16 +144,18 @@ const QuizPage: React.FC<QuizPageProps> = ({params}) => {
                 <QuizQuestion
                     question={questions[currentQuestionIndex]} // Passa a pergunta atual para o componente
                     onNextQuestion={handleNextQuestion}
+                    onCorrectAnswer={handleCorrectAnswer}
                 />
-            ) : questions.length === 0 ? (
+            ) : (
                 <div className="text-center">
-                    <h2>Sem Conteúdo no momento.</h2>
+                    <h1>Parabéns! Você completou o quiz.</h1>
+                    <p>Você acertou {currentQuizScore} questões de {questions.length} questões.</p>
+                    <div className="flex items-center justify-center">
+                        <h2>Você ganhou {currentQuizScore} átomos.</h2>
+                        <img src="/assets/atomoIcon.svg" className="h-6" alt="" />
+                    </div>
                 </div>
-            ): (
-                <div className="text-center">
-                    <h2>Parabéns! Você completou o quiz.</h2>
-                </div>
-            )
+                )
             }
         </div>
     );

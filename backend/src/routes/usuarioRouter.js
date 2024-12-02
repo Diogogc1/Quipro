@@ -91,7 +91,44 @@ router.post('/logout', async (req, res) => {
         console.error(error); // Para depuração
         res.status(500).json({ error: 'Erro ao realizar logout.' });
     }
-})
+});
+
+// Rota para atualizar a pontuação do usuário
+router.post('/update-user-points', async (req, res) => {
+    const { userId, points } = req.body;
+
+    try {
+        await prisma.user.update({
+            where: { id: userId },
+            data: { points: points }
+        });
+        res.status(200).json({ success: true });
+    } catch (error) {
+        console.error('Erro ao atualizar pontuação do usuário:', error);
+        res.status(500).json({ error: 'Falha ao atualizar pontuação do usuário' });
+    }
+});
+
+// Rota para buscar a pontuação de um usuário
+router.get('/:userId/points', async (req, res) => {
+    const { userId } = req.params;
+
+    try {
+        const user = await prisma.user.findUnique({
+            where: { id: parseInt(userId, 10) },
+            select: { points: true }, // Seleciona apenas os pontos
+        });
+
+        if (!user) {
+            return res.status(404).json({ error: 'Usuário não encontrado' });
+        }
+
+        res.status(200).json({ points: user.points });
+    } catch (error) {
+        console.error('Erro ao buscar pontos do usuário:', error);
+        res.status(500).json({ error: 'Erro interno ao buscar pontos do usuário' });
+    }
+});
 
 
 

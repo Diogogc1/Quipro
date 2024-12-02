@@ -1,6 +1,5 @@
 "use client"
 
-import { useState } from "react";
 import { ButtonRoute } from "../components/ButtonRoute";
 import { TrailCard } from "../components/TrailCard";
 

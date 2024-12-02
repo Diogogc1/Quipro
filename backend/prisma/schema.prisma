@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -14,90 +8,66 @@ datasource db {
 }
 
 model User {
-  id         Int       @id @default(autoincrement())
-  userName       String
-  email      String    @unique // Garante que o email seja único
-  password   String
-  dateBirth  DateTime  // Data de nascimento
-  userImage  String?   // URL da imagem do usuário (opcional)
-  progress   Progress[]  // Relacionamento com progresso
-  ranking    Ranking?   // Relacionamento 1-1 com Ranking (opcional)
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
+  id        Int        @id @default(autoincrement())
+  userName  String
+  email     String     @unique
+  password  String
+  dateBirth DateTime
+  userImage String?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  points    Int        @default(0)
+  progress  Progress[]
 
   @@map("users")
 }
 
 model Trail {
-  id        Int       @id @default(autoincrement())
-  title     String    @unique // Título da trilha único
-  chapters  Chapter[] // Relaciona os capítulos dessa trilha
-  progress  Progress[]  // Relaciona o progresso dos usuários nessa trilha
-  createdAt DateTime  @default(now())
+  id        Int        @id @default(autoincrement())
+  title     String     @unique
+  createdAt DateTime   @default(now())
+  chapters  Chapter[]
+  progress  Progress[]
 
   @@map("trails")
 }
 
 model Chapter {
-  id        Int       @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   title     String
-  trail     Trail     @relation(fields: [trailId], references: [id], onDelete: Cascade)
   trailId   Int
-  quizzes   Quiz[]    // Relaciona os quizzes deste capítulo
-  createdAt DateTime  @default(now())
+  createdAt DateTime @default(now())
+  trail     Trail    @relation(fields: [trailId], references: [id], onDelete: Cascade)
+  quizzes   Quiz[]
 
   @@map("chapters")
 }
 
 model Quiz {
   id            Int      @id @default(autoincrement())
-  question      String   // Texto da pergunta
-  options       String[] // Opções de múltipla escolha
-  correctAnswer String   // Resposta correta
-  image         String?  // URL da imagem da pergunta (opcional)
-  explanation   String   // Explicação da resposta
-  chapter       Chapter  @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  question      String
+  options       String[]
+  correctAnswer String
+  image         String?
+  explanation   String
   chapterId     Int
+  chapter       Chapter  @relation(fields: [chapterId], references: [id], onDelete: Cascade)
 
   @@map("quizzes")
 }
 
 model Progress {
-  id           Int       @id @default(autoincrement())
-  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId       Int
-  trail        Trail     @relation(fields: [trailId], references: [id], onDelete: Cascade)
-  trailId      Int
-  currentChapterId Int?  // Capítulo atual (opcional)
-  completed    Boolean   @default(false) // Se a trilha foi concluída
-  trailScore   Int       @default(0)     // Pontuação total na trilha
-  passed       Boolean   @default(false) // Se o usuário foi aprovado na trilha
-  createdAt    DateTime  @default(now())
+  id               Int      @id @default(autoincrement())
+  userId           Int
+  trailId          Int
+  currentChapterId Int?
+  completed        Boolean  @default(false)
+  trailScore       Int      @default(0)
+  passed           Boolean  @default(false)
+  createdAt        DateTime @default(now())
+  trail            Trail    @relation(fields: [trailId], references: [id], onDelete: Cascade)
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  // Garante que um usuário só pode ter um progresso único por trilha
   @@unique([userId, trailId])
-
   @@map("progress")
 }
-
-model Ranking {
-  id        Int      @id @default(autoincrement())
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    Int      @unique // Garante que o usuário tenha apenas um ranking único
-  points    Int      @default(0)  // Pontos acumulados
-
-  @@map("ranking")
-}
-//   id             Int      @id @default(autoincrement())
-//   email          String   @unique
-//   username       String   @unique
-//   dateOfBirth    DateTime
-//   password       String
-// }
-// model Aluno {
-//   id             Int      @id @default(autoincrement())
-//   email          String   @unique
-//   nome           String
-//   dataNascimento DateTime
-//   senha          String
-// }
