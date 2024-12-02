@@ -5,7 +5,7 @@ import Trail from "@/app/components/Trail";
 import { useEffect, useState } from "react";
 import Chapter from "@/app/components/Chapter";
 
-const niveisPermitidos = ["iniciante", "intermediaria", "avancada"] as const;
+const niveisPermitidos = ["Iniciante", "Intermediário", "Avançado"] as const;
 
 interface TrilhaProps
 {
@@ -26,8 +26,11 @@ export default function Trilha({params}:TrilhaProps)
     // recebendo o parametro da url, indicando de qual trilha se trata
     const {nivel} = params;
 
+    //Decodifica o nivel para o formato correto
+    const nivelDecodificado = decodeURIComponent(nivel);
+
     // Verifica se `nivel` é válido antes de continuar
-    if (!niveisPermitidos.includes(nivel as typeof niveisPermitidos[number])) {
+    if (!niveisPermitidos.includes(nivelDecodificado as typeof niveisPermitidos[number])) {
         return notFound();
     }
 
@@ -43,7 +46,7 @@ export default function Trilha({params}:TrilhaProps)
                     headers: {
                       'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ name: nivel }),
+                    body: JSON.stringify({ name: nivelDecodificado }),
                   });
         
                   if (response.ok) {
@@ -71,7 +74,7 @@ export default function Trilha({params}:TrilhaProps)
     //gerar pagina
     return(
         <>
-            <Trail title={nivel} capitulos={chapters} onChapterClick={handleChapterClick} />
+            <Trail title={nivelDecodificado} capitulos={chapters} onChapterClick={handleChapterClick} />
         </>
     )
 }

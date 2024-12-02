@@ -12,16 +12,15 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-
 model User {
   id         Int       @id @default(autoincrement())
-  userName       String
+  userName   String
   email      String    @unique // Garante que o email seja único
   password   String
   dateBirth  DateTime  // Data de nascimento
   userImage  String?   // URL da imagem do usuário (opcional)
+  points     Int       @default(0) // Pontuação acumulada
   progress   Progress[]  // Relacionamento com progresso
-  ranking    Ranking?   // Relacionamento 1-1 com Ranking (opcional)
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
 
@@ -79,25 +78,3 @@ model Progress {
 
   @@map("progress")
 }
-
-model Ranking {
-  id        Int      @id @default(autoincrement())
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    Int      @unique // Garante que o usuário tenha apenas um ranking único
-  points    Int      @default(0)  // Pontos acumulados
-
-  @@map("ranking")
-}
-//   id             Int      @id @default(autoincrement())
-//   email          String   @unique
-//   username       String   @unique
-//   dateOfBirth    DateTime
-//   password       String
-// }
-// model Aluno {
-//   id             Int      @id @default(autoincrement())
-//   email          String   @unique
-//   nome           String
-//   dataNascimento DateTime
-//   senha          String
-// }

@@ -12,21 +12,24 @@ interface Question {
 interface QuizQuestionProps {
     question: Question;
     onNextQuestion: () => void;
+    onCorrectAnswer: () => void;
 }
 
-const QuizQuestion: React.FC<QuizQuestionProps> = ({ question, onNextQuestion }) => {
+const QuizQuestion: React.FC<QuizQuestionProps> = ({ question, onNextQuestion, onCorrectAnswer }) => {
     const [selectedOption, setSelectedOption] = useState<string | null>(null);
     const [checked, setChecked] = useState(false);
     const [feedback, setFeedback] = useState<string | null>(null);
+    const lettersAlternatives = ["a", "b", "c", "d", "e", "f"];
 
     const handleCheckAnswer = () => {
         if (selectedOption) {
             setChecked(true);
-            setFeedback(
-                selectedOption === question.correctAnswer
-                    ? `Correto! ${question.explanation}`
-                    : `Incorreto. A resposta correta é: ${question.correctAnswer}. ${question.explanation}`
-            );
+            if (selectedOption === question.correctAnswer) {
+                setFeedback(`Correto! ${question.explanation}`);
+                onCorrectAnswer(); // Incrementa a pontuação
+            } else {
+                setFeedback(`Incorreto. A resposta correta é: ${question.correctAnswer}. ${question.explanation}`);
+            }
         }
     };
 
@@ -37,7 +40,6 @@ const QuizQuestion: React.FC<QuizQuestionProps> = ({ question, onNextQuestion })
         onNextQuestion(); // Chama a função para a próxima questão
     };
 
-    const lettersAlternatives = ["a", "b", "c", "d", "e", "f"];
 
     return (
         <div className="border border-zinc-700 min-h-[calc(100vh-(5rem+2.5rem))]  w-full sm:w-9/12 md:w-9/12  lg:w-[31.625rem] text-zinc-300 flex flex-col items-center mx-auto p-8 bg-zinc-800 rounded-md">
