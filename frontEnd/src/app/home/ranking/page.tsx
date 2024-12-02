@@ -1,11 +1,13 @@
 "use client";
 
 import { useAuth } from "@/app/utils/auth";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Ranking() {
   const [usuarios, setUsuarios] = useState<any[]>([]);
   const token = useAuth();
+  const router = useRouter();
 
   const fetchUsuarios = async () => {
     try {
@@ -25,7 +27,7 @@ export default function Ranking() {
   return (
     <div className="bg-gray-900 min-h-screen px-4 py-8 text-white">
       <div className="max-w-2xl mx-auto">
-        <a href="#" className="text-gray-400 text-sm mb-4 inline-block">← Voltar</a>
+        <button onClick={() => router.push("/home/profile")} className="text-gray-400 text-sm mb-4 inline-block">← Voltar</button>
         <h1 className="text-2xl font-semibold mb-2">Ranking</h1>
         <p className="text-gray-400 mb-6">Confira as posições</p>
         <div className="space-y-4">
