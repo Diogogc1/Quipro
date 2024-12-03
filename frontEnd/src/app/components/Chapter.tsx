@@ -1,4 +1,4 @@
-import { CheckCircle, Circle } from "phosphor-react";
+import { CheckCircle, Circle, Play } from "phosphor-react";
 
 interface Chapter{
     props:ChapterProps,
@@ -24,7 +24,7 @@ export default function Chapter({id, title, complete=false, functionClick}:Chapt
             >
                 <div className="flex items-center gap-2.5">
                     <div className="w-14 h-14 bg-zinc-900 rounded-xl border border-zinc-700 flex items-center justify-center">
-                        <div className="w-6 h-6 relative" /> 
+                        <Play className="w-8 h-7 relative text-violet-600" /> 
                     </div>
                     <p>{title}</p>
                 </div>
