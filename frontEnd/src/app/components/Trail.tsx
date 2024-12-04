@@ -43,8 +43,8 @@ export default function Trail({title, capitulos, onChapterClick}:TrilhaProps)
             <h1 className="text-zinc-400 text-[2rem] font-bold leading-10">
                 Trilha {title}
             </h1>
-            <div className="flex justify-between mt-">
-                <h2 className="text-zinc-500 text-xl font-medium leading-7 mt-6">
+            <div className="flex justify-between items-center mt-6">
+                <h2 className="text-zinc-500 text-xl font-medium leading-7 ">
                     Continue de onde parou
                 </h2>
                 <button onClick={exibirCapitulos} className=" text-right text-violet-600 text-sm leading-snug">
