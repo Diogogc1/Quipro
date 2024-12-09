@@ -5,7 +5,7 @@ import Trail from "@/app/components/Trail";
 import { useEffect, useState } from "react";
 import Chapter from "@/app/components/Chapter";
 
-const niveisPermitidos = ["iniciante", "intermediaria", "avancada"] as const;
+const niveisPermitidos = ["Iniciante", "Intermediario", "Avancado"] as const;
 
 interface TrilhaProps
 {

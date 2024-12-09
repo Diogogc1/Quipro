@@ -8,16 +8,23 @@ datasource db {
 }
 
 model User {
-  id        Int        @id @default(autoincrement())
-  userName  String
-  email     String     @unique
-  password  String
-  dateBirth DateTime
-  userImage String?
+  id                    Int        @id @default(autoincrement())
+  userName              String
+  email                 String     @unique
+  password              String
+  dateBirth             DateTime
+  userImage             String?
+  points                Int        @default(0)
+  lastChapterAccessedId Int?        @default(1)
+
+  //sub atributos
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
-  points    Int        @default(0)
-  progress  Progress[]
+  
+
+  //relações
+  chapterProgress  ChapterProgress[]
+  lastChapterAccessed  Chapter?   @relation(fields: [lastChapterAccessedId], references: [id], onDelete: SetNull)
 
   @@map("users")
 }
@@ -25,9 +32,12 @@ model User {
 model Trail {
   id        Int        @id @default(autoincrement())
   title     String     @unique
+
+  //sub atributos
   createdAt DateTime   @default(now())
+
+  //relações
   chapters  Chapter[]
-  progress  Progress[]
 
   @@map("trails")
 }
@@ -36,11 +46,17 @@ model Chapter {
   id        Int      @id @default(autoincrement())
   title     String
   trailId   Int
+
+  //sub atributo
   createdAt DateTime @default(now())
+
+  //relações
   trail     Trail    @relation(fields: [trailId], references: [id], onDelete: Cascade)
   quizzes   Quiz[]
+  chapterProgress ChapterProgress[]
 
   @@map("chapters")
+  User User[]
 }
 
 model Quiz {
@@ -51,23 +67,27 @@ model Quiz {
   image         String?
   explanation   String
   chapterId     Int
+
+  //relações
   chapter       Chapter  @relation(fields: [chapterId], references: [id], onDelete: Cascade)
 
   @@map("quizzes")
 }
 
-model Progress {
+model ChapterProgress{
   id               Int      @id @default(autoincrement())
+  chapterId        Int
   userId           Int
-  trailId          Int
-  currentChapterId Int?
-  completed        Boolean  @default(false)
-  trailScore       Int      @default(0)
-  passed           Boolean  @default(false)
-  createdAt        DateTime @default(now())
-  trail            Trail    @relation(fields: [trailId], references: [id], onDelete: Cascade)
-  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([userId, trailId])
+  //sub atributos
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime   @updatedAt
+
+  //relações
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  chapter          Chapter    @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+
+  // Restrições de unicidade
+  @@unique([chapterId, userId]) // a dupla não pode ser repetida, somente individualmente
   @@map("progress")
 }
