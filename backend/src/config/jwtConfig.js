@@ -37,14 +37,16 @@ const blacklistToken = async (token)=>{
     const decoded = jwt.decode(token);
 
     if (!decoded) {
-        throw new Error('Token inválido ao tentar adicionar à blacklist');
+        console.error('Token inválido ao tentar adicionar à blacklist');
+        return; // Retorna sem fazer mais nada
     }
 
     const expiresIn = decoded.exp * 1000 - Date.now(); //tempo de expiração em ms
 
     // Verificar se expiresIn é um número válido e positivo
     if (isNaN(expiresIn) || expiresIn <= 0) {
-        throw new Error('Erro no tempo de expiração do token');
+        console.warn('O token já expirou ou é inválido:', expiresIn);
+        return; // Não adiciona à blacklist, apenas sai da função
     }
 
     try {
@@ -53,7 +55,7 @@ const blacklistToken = async (token)=>{
         await redisClient.setEx(`blacklist:${token}`,Math.floor(expiresIn / 1000), 'true');
 
     } catch (error) {
-        throw new Error(`Erro ao adicionar token à blacklist: ${error.message}`);
+        console.error(`Erro ao adicionar token à blacklist: ${error.message}`);
     }
 }
 

@@ -12,6 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const signUpFormValidationSchema = zod
   .object({
@@ -34,6 +35,10 @@ type SignUpFormData = zod.infer<typeof signUpFormValidationSchema>;
 
 export default function SignUp() {
 
+  //estado para mensagem de sucesso e erro no cadastro
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
   const router = useRouter(); // Inicializando o useRouter
 
   const {
@@ -55,19 +60,16 @@ export default function SignUp() {
       });
 
       if (response.ok) {
-        alert('Usuario cadastrado');
-        const result = await response.json();
-        console.log("User created:", result);
-        router.push("../login"); // Redirecionando usuario para a tela de login
+        setSuccessMessage("Usuário cadastrado com sucesso!");
+        setTimeout(() => {
+          router.push("../login");
+        }, 1000); // Redireciona após 2 segundos para tela de login
       } else {
-        alert('Usuario nao cadastrado: '+ response.status);
         const error = await response.json();
-        console.error("Failed to create user:", error);
-        // Aqui você pode exibir uma mensagem de erro
+        setErrorMessage('Erro ao cadastrar usuário');
       }
     } catch (error) {
-      console.error("Error:", error);
-      // Aqui você pode exibir uma mensagem de erro
+      setErrorMessage("Ocorreu um erro ao processar o cadastro.");
     }
   };
 
@@ -166,6 +168,17 @@ export default function SignUp() {
           </button>
         </div>
       </form>
+      {/* Mensagem de feedback */}
+      {successMessage && (
+        <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg">
+          {successMessage}
+        </div>
+      )}
+      {errorMessage && (
+        <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-red-600 text-white px-6 py-3 rounded-lg shadow-lg">
+          {errorMessage}
+        </div>
+      )}
     </div>
   );
 }

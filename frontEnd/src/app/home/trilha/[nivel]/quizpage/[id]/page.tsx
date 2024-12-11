@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import QuizQuestion from '../../../../../components/QuizQuestion';
 import { notFound } from 'next/navigation';
-import { ArrowLeft } from 'phosphor-react';
+import { ArrowLeft, CircleNotch } from 'phosphor-react';
 import { useRouter } from 'next/navigation';
 import { parseCookies, setCookie } from "nookies"; //importando cookies
 import { useScore } from '@/contexts/ScoreContext'; // Importando o contexto
@@ -25,6 +25,7 @@ const QuizPage: React.FC<QuizPageProps> = ({params}) => {
     const [isLoading, setIsLoading] = useState(true); // Estado para carregar
     const [currentQuizScore, setCurrentQuizScore] = useState(0);
     const [chapterAlreadyCompleted, setChapterAlreadyCompleted] = useState(false);
+    const [maxChapters, setMaxChapters] = useState<any>(null);
     // chamando função do context Score, para incrementar pontuação
     const { incrementScore } = useScore();
 
@@ -55,6 +56,19 @@ const QuizPage: React.FC<QuizPageProps> = ({params}) => {
 
     }
 
+    //função de requisição para numero total de capitulos da trilha
+    const fetchMaxChapters = async () => {
+        const response = await fetch(`http://localhost:3001/capitulo/get-max-Chapters/${userId}/${id}`);
+        if(response.ok)
+        {
+            const {totalChapters} = await response.json();
+            setMaxChapters(totalChapters);
+        }
+        else{
+            console.log("Erro ao buscar total de capitulos da trilha");
+        }
+    };
+
     //ativando função para salvar o ultimo capitulo acessado e requisição para receber lista de quizzes
     useEffect(() => {
 
@@ -82,6 +96,7 @@ const QuizPage: React.FC<QuizPageProps> = ({params}) => {
 
         saveLastChapterAcessedId();
         fetchQuestions();
+        fetchMaxChapters();
 
     }, [id, userId]); // Dependências incluem 'id' e 'userId' para garantir que as mudanças sejam tratadas
 
@@ -160,6 +175,17 @@ const QuizPage: React.FC<QuizPageProps> = ({params}) => {
         return notFound();
     }
 
+    //função para redirecionar para o proximo capitulo
+    const handleNextChapter = () => {
+        const currentUrl = window.location.pathname; // Obtém a URL atual
+    
+        const nextChapterId = (parseInt(id) + 1).toString(); // Calcula o próximo capítulo
+        const newUrl = currentUrl.replace(`/quizpage/${id}`, `/quizpage/${nextChapterId}`); // Substitui o id na URL
+    
+        // Navega para a nova URL com o id atualizado
+        router.push(newUrl);
+    };
+
     //gera a pagina
     return (
         <div className='h-full'>
@@ -175,14 +201,49 @@ const QuizPage: React.FC<QuizPageProps> = ({params}) => {
                     onCorrectAnswer={handleCorrectAnswer}
                 />
             ) : ( //Exibe quando finaliza os quizzes
-                <div className="text-center">
-                    <h1>Parabéns! Você completou o quiz.</h1>
-                    <p>Você acertou {currentQuizScore} questões de {questions.length} questões.</p>
-                    <div className="flex items-center justify-center">
-                        <h2>Você ganhou {chapterAlreadyCompleted ? 0 : currentQuizScore} átomos.</h2>
-                        <img src="/assets/atomoIcon.svg" className="h-6" alt="" />
+                // <div className="text-center">
+                //     <h1>Parabéns! Você completou o quiz.</h1>
+                //     <p>Você acertou {currentQuizScore} questões de {questions.length} questões.</p>
+                //     <div className="flex items-center justify-center">
+                //         <h2>Você ganhou {chapterAlreadyCompleted ? 0 : currentQuizScore} átomos.</h2>
+                //         <img src="/assets/atomoIcon.svg" className="h-6" alt="" />
+                //     </div>
+                // </div>
+
+                <div className="flex justify-center items-center h-full">
+                    <div className="bg-zinc-800 rounded-lg p-6 w-[500px] text-center">
+                        <img
+                            src="/assets/images/pic_pontuacao.png"
+                            alt="Pontuação"
+                            className="mx-auto mb-6 h-[241px] w-[272px]"
+                        />
+                        <div className='flex justify-center items-center mb-4'>
+                            <img src="/assets/atomoIcon.svg" className="h-6" alt="" />
+                            <h2 className="text-white text-2xl font-bold ml-2">{chapterAlreadyCompleted ? 0 : currentQuizScore} átomos</h2>
+                        </div>
+                        <p className="text-zinc-400">Você acertou {currentQuizScore} questões de {questions.length} questões.</p>
+
+                        <div className="flex flex-col items-center gap-4 mt-6">
+                            {parseInt(id) < maxChapters &&(
+                            <button
+                                onClick={handleNextChapter}
+                                className="bg-violet-600 h-[48px] text-white py-2 px-4 rounded-full hover:bg-violet-700"
+                            >
+                                Próximo capítulo
+                            </button>
+                            )}
+                            
+                            <button
+                                onClick={()=>{window.location.reload()}} //recarrega a pagina
+                                className="py-2 px-4 rounded-lg text-zinc-400 hover:bg-zinc-700 hover:text-white flex items-center gap-2"
+                            >
+                                <CircleNotch className="h-[24px] w-[24px]" alt="" />
+                                Refazer
+                            </button>
+                        </div>
                     </div>
                 </div>
+
                 )
             }
         </div>

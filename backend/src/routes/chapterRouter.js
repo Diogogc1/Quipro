@@ -94,4 +94,31 @@ router.get('/get-chapters-not-complete/:chapterId/:userId', async (req, res)=>{
 });
 
 
+//rota para contar o numero de capitulos da trilha
+router.get('/get-max-Chapters/:userId/:chapterId', async (req, res)=>{
+    const {userId, chapterId} = req.params;
+
+    try {
+        // recebe o trailId do capitulo
+        const {trailId} = await prisma.chapter.findFirst({
+            where:{id: parseInt(chapterId, 10)},
+            select:{trailId: true}
+        })
+
+        if (!trailId) {
+            return res.status(404).json({ error: 'Capítulo não encontrado' });
+        }
+
+        //Contar o número total de capítulos nessa trilha
+        const totalChapters = await prisma.chapter.count({
+            where: { trailId: trailId },
+        });
+
+        res.status(200).json({totalChapters});
+
+    } catch (error) {
+        console.error('Error fetching max chapters:', error);
+    }
+});
+
 module.exports = router;
