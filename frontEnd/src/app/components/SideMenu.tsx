@@ -1,12 +1,12 @@
 "use client";
 
 import { useRouter, usePathname } from 'next/navigation';
-import {House, SignOut, Trophy, List, X} from 'phosphor-react';
+import {House, Trophy, List, X} from 'phosphor-react';
 import { useState } from 'react';
 import { LogoutButton } from './LogoutButton';
 
 
-export function MenuLateral()
+export function SideMenu()
 {
 
     const router = useRouter();

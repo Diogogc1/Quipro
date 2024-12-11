@@ -4,8 +4,9 @@ import { notFound, useRouter } from "next/navigation";
 import Trail from "@/app/components/Trail";
 import { useEffect, useState } from "react";
 import Chapter from "@/app/components/Chapter";
+import { parseCookies } from "nookies";
 
-const niveisPermitidos = ["Iniciante", "Intermediario", "Avancado"] as const;
+const permittedTrails = ["Iniciante", "Intermediario", "Avancado"] as const;
 
 interface TrilhaProps
 {
@@ -26,8 +27,13 @@ export default function Trilha({params}:TrilhaProps)
     // recebendo o parametro da url, indicando de qual trilha se trata
     const {nivel} = params;
 
+     //recebendo id do usuario que esta armazenado no cookie
+     const cookies = parseCookies();
+     const userId = cookies.idUser;
+ 
+
     // Verifica se `nivel` é válido antes de continuar
-    if (!niveisPermitidos.includes(nivel as typeof niveisPermitidos[number])) {
+    if (!permittedTrails.includes(nivel as typeof permittedTrails[number])) {
         return notFound();
     }
 
@@ -35,20 +41,17 @@ export default function Trilha({params}:TrilhaProps)
     const [chapters, setChapters] = useState<Chapter[]>([]);
     const router = useRouter();
 
+    //requisição para buscar os capitulos da trilha
     useEffect(() => {
         const fetchChapters = async () => {
             try {
-                const response = await fetch('http://localhost:3001/trilha/capitulos', {
-                    method: 'POST',
-                    headers: {
-                      'Content-Type': 'application/json',
-                    },
-                     body: JSON.stringify({ name: nivel }),
+                const response = await fetch(`http://localhost:3001/trilha/capitulos/${nivel}/${userId}`, {
+                    method: 'GET'
                   });
         
                   if (response.ok) {
                     const data = await response.json();
-                    setChapters(Array.isArray(data.chapters) ? data.chapters : []);
+                    setChapters(Array.isArray(data.chaptersWithCompletion) ? data.chaptersWithCompletion : []);
                   }
                   else{
                     console.log("Erro na requisição de capitulos da trilha");
@@ -63,7 +66,7 @@ export default function Trilha({params}:TrilhaProps)
     }, [nivel]);
 
 
-     // Armazena os parâmetros no sessionStorage e encaminha para pagina do quiz
+     // função que encaminha para pagina do quiz
     const handleChapterClick = (id) => {
     router.push(`/home/trilha/${nivel}/quizpage/${id}`);
     };

@@ -1,37 +1,50 @@
 "use client";
 
-import { ArrowsIn, MathOperations, Funnel, Atom } from "phosphor-react";
+import { useRouter } from "next/navigation";
+import { CheckCircle, Circle, Play } from "phosphor-react";
 
 interface TrailCardProps {
-  name: string;
-  type: "ArrowsIn" | "MathOperations" | "Funnel" | "Atom"
+  id: number,
+  name: string,
+  index: number,
+  trailTitle: string | null
 }
 
-export function TrailCard({ name, type }: TrailCardProps) {
+export function TrailCard({ name, index, id, trailTitle }: TrailCardProps) {
 
-  const icons = {
-    ArrowsIn: ArrowsIn,
-    MathOperations: MathOperations,
-    Funnel: Funnel,
-    Atom:Atom 
-  };
+  const router = useRouter();
 
-  const IconComponent = icons[type];
+  // encaminha para pagina do quiz
+  const handleChapterClick = () => {
+    if (trailTitle) {
+      router.push(`/home/trilha/${trailTitle}/quizpage/${id}`);
+    } else {
+      console.error("Título da trilha não encontrado");
+    }
+    };
+
 
   return (
     <>
-      <div className="h-56 p-6 bg-zinc-800 rounded-xl border border-zinc-700 flex-col justify-start items-start gap-2.5 inline-flex hover:border-violet-600 transition-colors duration-250 cursor-pointer">
-        <div className="w-[293px] justify-between items-start inline-flex">
+      <div onClick={handleChapterClick} className={`min-h-56 w-11/12 sm:w-[330px] p-6 bg-zinc-800 rounded-xl border ${index === 0 ? 'border-green-500' : 'border-zinc-700'}  flex-col justify-start items-start gap-2.5 inline-flex hover:border-violet-600 transition-colors duration-250 cursor-pointer`}>
+        <div className=" w-[293px] justify-between items-start inline-flex">
           <div className="w-14 h-14 relative bg-zinc-900 rounded-xl border border-zinc-700">
-            <IconComponent className="w-6 h-6 left-[16px] top-[16px] absolute text-lime-400" />
+            <Play className="w-6 h-6 left-[16px] top-[16px] absolute text-lime-400" />
           </div>
           <img
             className="w-[12.3125rem] h-[8.625rem]"
             src="/assets/images/card.png"
           />
         </div>
-        <div className="self-stretch text-zinc-400 text-xl leading-7">
-          {name}
+        <div className="flex w-full items-center justify-between">
+          <div className="self-stretch text-zinc-400 text-xl leading-7">
+            {name}
+          </div>
+          {index === 0 ? (
+              <CheckCircle weight="fill" className="w-6 h-6 text-green-500" />
+          ) : (
+              <Circle weight="fill" className="w-6 h-6 text-zinc-700" />
+          )}
         </div>
       </div>
     </>

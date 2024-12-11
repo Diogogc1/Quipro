@@ -12,9 +12,8 @@ interface ChapterProps{
     functionClick: (id: number) => void;
 }
 
-export default function Chapter({id, title, complete=false, functionClick}:ChapterProps)
+export default function Chapter({id, title, complete, functionClick}:ChapterProps)
 {
-    const isComplete = complete ?? false;
 
     return(
             <div 

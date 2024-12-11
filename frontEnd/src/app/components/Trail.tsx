@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowLeft } from "phosphor-react";
 import Chapter from "./Chapter";
 import { useState } from "react";
+import { ButtonLimitsView } from "./ButtonLimitsView";
 
 interface Capitulo{
     id: number,
@@ -21,18 +22,7 @@ export default function Trail({title, capitulos, onChapterClick}:TrilhaProps)
 {
 
     //configurações de exibição dos capitulos
-    const [limite,setLimite] = useState(4); //Começa limitando mostrar 4 capitulos
-    const [mostrarTodos, setMostrarTodos] = useState(false); // Estado que controla se deve exibir todos ou não
-
-    const exibirCapitulos = ()=>{
-        setMostrarTodos(!mostrarTodos); // Alterna entre mostrar todos ou limitar
-        if(mostrarTodos){
-            setLimite(4); // Se está mostrando todos, ao clicar limita novamente
-        }
-        else{
-            setLimite(capitulos.length);
-        }
-    }
+    const [limite,setLimite] = useState(4); //definindo limite de visualização inicial
 
     return(
         <>
@@ -47,9 +37,7 @@ export default function Trail({title, capitulos, onChapterClick}:TrilhaProps)
                 <h2 className="text-zinc-500 text-xl font-medium leading-7 ">
                     Continue de onde parou
                 </h2>
-                <button onClick={exibirCapitulos} className=" text-right text-violet-600 text-sm leading-snug">
-                    {!mostrarTodos ? 'Ver tudo': 'Ver menos'}
-                </button>
+                <ButtonLimitsView conteudoLength={capitulos.length} limitView={4} limite={limite} setLimite={setLimite} />
             </div>
             <div className="mt-6 mb-8 flex flex-col gap-5">
                 {capitulos?.slice(0,limite).map(capitulo=>{

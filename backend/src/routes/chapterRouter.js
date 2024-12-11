@@ -59,4 +59,39 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
+//rota para buscar os capitulos que ainda não foram realizados pelo usuario
+router.get('/get-chapters-not-complete/:chapterId/:userId', async (req, res)=>{
+    const { chapterId, userId } = req.params;
+
+    try {
+
+        // recebe o trailId do capitulo
+        const {trailId} = await prisma.chapter.findFirst({
+            where:{id: parseInt(chapterId, 10)},
+            select:{trailId: true}
+        })
+
+        if (!trailId) {
+            return res.status(404).json({ error: 'Capítulo não encontrado' });
+        }
+
+        const incompleteChapters = await prisma.chapter.findMany({
+            where:{
+                trailId: trailId,
+                chapterProgress:{
+                    none:{userId:parseInt(userId, 10)},
+                }
+            }
+        })
+
+        return res.status(200).json({incompleteChapters: incompleteChapters});
+
+
+    } catch (error) {
+        console.error('Erro ao buscar capitulos não completados:', error);
+        res.status(500).json({ error: 'Erro interno ao buscar capitulos não completados' });
+    }
+});
+
+
 module.exports = router;

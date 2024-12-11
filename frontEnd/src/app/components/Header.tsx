@@ -10,10 +10,6 @@ export interface HeaderProps{
 
 export function Header({srcAvatar}: HeaderProps)
 {
-    // //recebendo id do usuario que esta armazenado no cookie
-    // const cookies = parseCookies();
-    // const userId = cookies.idUser;
-
     // Consome o contexto de pontuação
     const { score } = useScore();
 

@@ -28,10 +28,10 @@ export default function Login() {
 
       if (response.ok) {
         // Sucesso no login
-        const {token, userId, userName} = await response.json();
+        const {token, userId, userName, lastChapterAccessedId} = await response.json();
 
 
-        // Armazene o token em um cookie
+        // Armazene o idUser em um cookie
         setCookie(null, 'idUser', userId, {
           maxAge: 60 * 60, // 1 hora
           path: '/', // Disponível em todo o site
@@ -47,6 +47,13 @@ export default function Login() {
 
         // Armazene o username em um cookie
         setCookie(null, 'userName', userName, {
+          maxAge: 60 * 60, // 1 hora
+          path: '/', // Disponível em todo o site
+          sameSite: 'lax',
+        });
+
+        // Armazene o id do ultimo capitulo acessado pelo usuario em um cookie
+        setCookie(null, 'lastChapterAcessedId', lastChapterAccessedId, {
           maxAge: 60 * 60, // 1 hora
           path: '/', // Disponível em todo o site
           sameSite: 'lax',

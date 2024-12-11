@@ -3,6 +3,7 @@ const router = express.Router();
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
+//rota para buscar os quizzes de um determinado capitulo
 router.post('/', async (req, res) => {
     const { id } = req.body; // Pegando o chapterId do corpo da requisição
     try {

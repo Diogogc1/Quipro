@@ -7,6 +7,8 @@ const prisma = new PrismaClient();
 const bcrypt = require('bcrypt');
 const jwtConfig = require('../config/jwtConfig');
 
+
+//rota para buscar a lista de ranking dos usuarios da aplicação
 router.get('/ranking', async (req, res) => {
 
     const ranking = await prisma.user.findMany({
@@ -22,6 +24,7 @@ router.get('/ranking', async (req, res) => {
     res.status(200).json({ ranking });
 })
 
+//rota para cadastrar usuario
 router.post('/cadastro', async (req, res) => {
     const { email, userName, dateBirth, password } = req.body;
 
@@ -77,14 +80,14 @@ router.post('/login', async (req, res) => {
 
         //gerando token
         const token = jwtConfig.generateToken(user.id);
-
-        res.status(200).json({ token, userId: user.id, userName:user.userName});
+       
+        res.status(200).json({ token, userId: user.id, userName:user.userName, lastChapterAccessedId:user.lastChapterAccessedId});
     } catch (error) {
         res.status(500).json({ error: 'Falha ao fazer login' });
     }
 });
 
-
+//rota para deslogar usuario da conta
 router.post('/logout', async (req, res) => {
     
     try {
@@ -114,7 +117,9 @@ router.post('/update-user-points', async (req, res) => {
     try {
         await prisma.user.update({
             where: { id: userId },
-            data: { points: points }
+            data: { points:{
+                increment:points, // Incrementa o valor atual dos pontos
+            } }
         });
         res.status(200).json({ success: true });
     } catch (error) {
@@ -144,7 +149,25 @@ router.get('/:userId/points', async (req, res) => {
     }
 });
 
+//rota para salvar o ultimo capitulo acessado
+router.put('/save-last-chapter-accessed' ,async(req, res)=>{
+    const {userId, id} = req.body;
 
+    if (isNaN(userId || id)) {
+        return res.status(400).json({ error: 'dados invalidos' });
+    }
+
+    try {
+        await prisma.user.update({
+            where:{id: parseInt(userId, 10)},
+            data:{lastChapterAccessedId: parseInt(id, 10)}
+        })
+
+        res.status(200).json({ message: 'Ultimo capitulo acessado atualizado com sucesso' });
+    } catch (error) {
+        res.status(500).json({ error: 'Erro ao atualizar a trilha' });
+    }
+});
 
 
 module.exports = router;

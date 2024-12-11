@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { parseCookies } from 'nookies';
 import { ArrowLeft, Atom } from "phosphor-react";
+import { ButtonLimitsView } from "@/app/components/ButtonLimitsView";
 
 export default function Ranking() {
   const [usuarios, setUsuarios] = useState<any[]>([]);
@@ -11,18 +12,7 @@ export default function Ranking() {
   let userId;
 
   //configurações de exibição dos capitulos
-  const [limite,setLimite] = useState(3); //Começa limitando mostrar 4 capitulos
-  const [mostrarTodos, setMostrarTodos] = useState(false); // Estado que controla se deve exibir todos ou não
-
-  const exibirCapitulos = ()=>{
-      setMostrarTodos(!mostrarTodos); // Alterna entre mostrar todos ou limitar
-      if(mostrarTodos){
-          setLimite(3); // Se está mostrando todos, ao clicar limita novamente
-      }
-      else{
-          setLimite(usuarios.length);
-      }
-  }
+  const [limite,setLimite] = useState(3); //definindo limite de visualização inicial do ranking
 
   const fetchUsuarios = async () => {
     try {
@@ -52,9 +42,7 @@ export default function Ranking() {
         <h1 className="text-zinc-400 text-[2rem] font-bold leading-10 mb-6">Ranking</h1>
         <div className="flex justify-between items-center mb-8">
           <p className="text-zinc-500 text-xl font-medium leading-7">Confira as posições</p>
-          <button onClick={exibirCapitulos} className=" text-right text-violet-600 text-sm leading-snug">
-            {!mostrarTodos ? 'Ver tudo': 'Ver menos'}
-          </button>
+          <ButtonLimitsView conteudoLength={usuarios.length} limitView={3} limite={limite} setLimite={setLimite} />
         </div>
         <div className=" border rounded-[4px] border-zinc-700 ">
           {usuarios.length > 0 &&

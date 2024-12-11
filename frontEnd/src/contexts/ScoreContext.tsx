@@ -5,7 +5,7 @@ import { parseCookies } from 'nookies';
 interface ScoreContextType {
   score: number;
   setScore: React.Dispatch<React.SetStateAction<number>>;
-  incrementScore: () => void;
+  incrementScore: (points:number) => void;
   resetScore: () => void;
 }
 
@@ -30,8 +30,8 @@ export const ScoreProvider: React.FC<ScoreProviderProps> = ({ children }) => {
   const cookies = parseCookies();
   const userId = cookies.idUser; // Recupera o ID do usuário armazenado nos cookies
 
-  const incrementScore = () => {
-    setScore((prevScore) => prevScore + 1); // Incrementa a pontuação no estado local
+  const incrementScore = (points:number) => {
+    setScore((prevScore) => prevScore + points); // Incrementa a pontuação no estado local
   };
 
   const resetScore = () => {

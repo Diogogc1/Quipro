@@ -22,6 +22,7 @@ export function LogoutButton() {
         destroyCookie(null, "authToken");
         destroyCookie(null, "idUser");
         destroyCookie(null, "userName");
+        destroyCookie(null, "lastChapterAccessedId");
 
         // Redirecionar para Home
         router.push("/");
