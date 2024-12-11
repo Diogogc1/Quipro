@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -12,69 +6,88 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
 model User {
-  id         Int       @id @default(autoincrement())
-  userName   String
-  email      String    @unique // Garante que o email seja único
-  password   String
-  dateBirth  DateTime  // Data de nascimento
-  userImage  String?   // URL da imagem do usuário (opcional)
-  points     Int       @default(0) // Pontuação acumulada
-  progress   Progress[]  // Relacionamento com progresso
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
+  id                    Int        @id @default(autoincrement())
+  userName              String
+  email                 String     @unique
+  password              String
+  dateBirth             DateTime
+  userImage             String? 
+  points                Int        @default(0)
+  lastChapterAccessedId Int?        @default(1)
+
+  //sub atributos
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  
+
+  //relações
+  chapterProgress  ChapterProgress[]
+  lastChapterAccessed  Chapter?   @relation(fields: [lastChapterAccessedId], references: [id], onDelete: SetNull)
 
   @@map("users")
 }
 
 model Trail {
-  id        Int       @id @default(autoincrement())
-  title     String    @unique // Título da trilha único
-  chapters  Chapter[] // Relaciona os capítulos dessa trilha
-  progress  Progress[]  // Relaciona o progresso dos usuários nessa trilha
-  createdAt DateTime  @default(now())
+  id        Int        @id @default(autoincrement())
+  title     String     @unique
+
+  //sub atributos
+  createdAt DateTime   @default(now())
+
+  //relações
+  chapters  Chapter[]
 
   @@map("trails")
 }
 
 model Chapter {
-  id        Int       @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   title     String
-  trail     Trail     @relation(fields: [trailId], references: [id], onDelete: Cascade)
   trailId   Int
-  quizzes   Quiz[]    // Relaciona os quizzes deste capítulo
-  createdAt DateTime  @default(now())
+
+  //sub atributo
+  createdAt DateTime @default(now())
+
+  //relações
+  trail     Trail    @relation(fields: [trailId], references: [id], onDelete: Cascade)
+  quizzes   Quiz[]
+  chapterProgress ChapterProgress[]
 
   @@map("chapters")
+  User User[]
 }
 
 model Quiz {
   id            Int      @id @default(autoincrement())
-  question      String   // Texto da pergunta
-  options       String[] // Opções de múltipla escolha
-  correctAnswer String   // Resposta correta
-  image         String?  // URL da imagem da pergunta (opcional)
-  explanation   String   // Explicação da resposta
-  chapter       Chapter  @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  question      String
+  options       String[]
+  correctAnswer String
+  image         String?
+  explanation   String
   chapterId     Int
+
+  //relações
+  chapter       Chapter  @relation(fields: [chapterId], references: [id], onDelete: Cascade)
 
   @@map("quizzes")
 }
 
-model Progress {
-  id           Int       @id @default(autoincrement())
-  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId       Int
-  trail        Trail     @relation(fields: [trailId], references: [id], onDelete: Cascade)
-  trailId      Int
-  currentChapterId Int?  // Capítulo atual (opcional)
-  completed    Boolean   @default(false) // Se a trilha foi concluída
-  trailScore   Int       @default(0)     // Pontuação total na trilha
-  passed       Boolean   @default(false) // Se o usuário foi aprovado na trilha
-  createdAt    DateTime  @default(now())
+model ChapterProgress{
+  id               Int      @id @default(autoincrement())
+  chapterId        Int
+  userId           Int
 
-  // Garante que um usuário só pode ter um progresso único por trilha
-  @@unique([userId, trailId])
+  //sub atributos
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime   @updatedAt
 
+  //relações
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  chapter          Chapter    @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+
+  // Restrições de unicidade
+  @@unique([chapterId, userId]) // a dupla não pode ser repetida, somente individualmente
   @@map("progress")
 }
