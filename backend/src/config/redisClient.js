@@ -2,7 +2,7 @@ const redis = require('redis');
 
 // Conectar ao Redis localmente
 const client = redis.createClient({
-    url: 'redis://localhost:6379',
+    url: process.env.REDIS_URL,
     // Se precisar de senha, usar: 'redis://:your_redis_password@localhost:6379'
   });
 
