@@ -45,11 +45,11 @@ export default function SignUp() {
   const router = useRouter(); // Inicializando o useRouter
 
   //funções para controle da tipagem do input de data de aniversario
-  const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+  const handleFocus = () => {
     setIsDateFocused(true);
   };
 
-  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+  const handleBlur = () => {
     setIsDateFocused(false);
     
   };
@@ -79,7 +79,6 @@ export default function SignUp() {
           router.push("../login");
         }, 1000); // Redireciona após 2 segundos para tela de login
       } else {
-        const error = await response.json();
         setErrorMessage('Email ou Usuário já cadastrado!');
       }
     } catch (error) {
@@ -131,8 +130,8 @@ export default function SignUp() {
                 placeholder="Seu aniversário"
                 className="text-gray-500 w-full sm:w-[198px] h-12 font-roboto bg-zinc-900 border-zinc-700 appearance-none p-4 pl-14 pr-4 border-solid border rounded-full focus:outline-none focus:border-violet-600"
                 {...register("dateBirth",{
-                  onBlur: (e)=>{
-                    handleBlur(e);
+                  onBlur: ()=>{
+                    handleBlur();
                   }
                 })}
               />

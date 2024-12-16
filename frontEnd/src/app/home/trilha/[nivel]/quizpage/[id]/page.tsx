@@ -1,17 +1,28 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import QuizQuestion from '../../../../../components/QuizQuestion';
 import { notFound } from 'next/navigation';
 import { ArrowLeft, CircleNotch } from 'phosphor-react';
 import { useRouter } from 'next/navigation';
 import { parseCookies, setCookie } from "nookies"; //importando cookies
 import { useScore } from '@/contexts/ScoreContext'; // Importando o contexto
+import Image from 'next/image';
 
 interface QuizPageProps{
     params:{
         id:string;
     }
+}
+
+interface QuestionsProps{
+    id: number,
+    question: string,
+    options: string[],
+    correctAnswer: string,
+    image: string | null,
+    explanation: string,
+    chapterId: number
 }
 
 
@@ -21,11 +32,11 @@ const QuizPage: React.FC<QuizPageProps> = ({params}) => {
     const {id} = params; 
     //estados
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-    const [questions, setQuestions] = useState<any[]>([]); // Use 'any' ou defina um tipo adequado
+    const [questions, setQuestions] = useState<QuestionsProps[]>([]);
     const [isLoading, setIsLoading] = useState(true); // Estado para carregar
     const [currentQuizScore, setCurrentQuizScore] = useState(0);
     const [chapterAlreadyCompleted, setChapterAlreadyCompleted] = useState(false);
-    const [maxChapters, setMaxChapters] = useState<any>(null);
+    const [maxChapters, setMaxChapters] = useState<number | null>(null);
     // chamando função do context Score, para incrementar pontuação
     const { incrementScore } = useScore();
 
@@ -36,51 +47,55 @@ const QuizPage: React.FC<QuizPageProps> = ({params}) => {
     const router = useRouter();
 
     //função com requisição para salvar ultimo capitulo acessado pelo usuario
-    const saveLastChapterAcessedId = async ()=>{
-        try {
-            const response = await fetch('http://localhost:3001/usuario/save-last-chapter-accessed',{
-                method: 'PUT',
-                body: JSON.stringify({userId, id}),
-                headers: {'Content-Type': 'application/json'},
-            });
-
-            if (!response.ok) {
-                throw new Error('Erro ao salvar ultimo acesso do usuário');
+    const saveLastChapterAcessedId = useCallback(
+        async ()=>{
+            try {
+                const response = await fetch('http://localhost:3001/usuario/save-last-chapter-accessed',{
+                    method: 'PUT',
+                    body: JSON.stringify({userId, id}),
+                    headers: {'Content-Type': 'application/json'},
+                });
+    
+                if (!response.ok) {
+                    throw new Error('Erro ao salvar ultimo acesso do usuário');
+                }
+    
+                // Atualizar o cookie para garantir que ele está sincronizado
+                setCookie(null, 'lastChapterAcessedId', id, { path: '/' });
+            } catch (error) {
+                console.error('Erro ao salvar ultimo acesso:', error);
             }
-
-            // Atualizar o cookie para garantir que ele está sincronizado
-            setCookie(null, 'lastChapterAcessedId', id, { path: '/' });
-        } catch (error) {
-            console.error('Erro ao salvar ultimo acesso:', error);
-        }
-
-    }
+    
+        }, [userId, id]
+    );
 
     //função de requisição para numero total de capitulos da trilha
-    const fetchMaxChapters = async () => {
-        const response = await fetch(`http://localhost:3001/capitulo/get-max-Chapters/${userId}/${id}`);
-        if(response.ok)
-        {
-            const {totalChapters} = await response.json();
-            setMaxChapters(totalChapters);
-        }
-        else{
-            console.log("Erro ao buscar total de capitulos da trilha");
-        }
-    };
+    const fetchMaxChapters = useCallback(
+        async () => {
+            const response = await fetch(`http://localhost:3001/capitulo/get-max-Chapters/${userId}/${id}`);
+            if(response.ok)
+            {
+                const {totalChapters} = await response.json();
+                setMaxChapters(totalChapters);
+            }
+            else{
+                console.log("Erro ao buscar total de capitulos da trilha");
+            }
+        }, [userId, id]
+    );
 
     //ativando função para salvar o ultimo capitulo acessado e requisição para receber lista de quizzes
     useEffect(() => {
 
         const fetchQuestions = async () => {
             try{
-                const id = Number(params.id); // Aqui converte 'id' para número
+                const chapterId = Number(id); // Aqui converte 'id' para número
                 const response = await fetch('http://localhost:3001/quizz', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ id }), // Passa os parâmetros no corpo da requisição
+                    body: JSON.stringify({ id: chapterId }), // Passa os parâmetros no corpo da requisição
                 });
 
 
@@ -98,7 +113,7 @@ const QuizPage: React.FC<QuizPageProps> = ({params}) => {
         fetchQuestions();
         fetchMaxChapters();
 
-    }, [id, userId]); // Dependências incluem 'id' e 'userId' para garantir que as mudanças sejam tratadas
+    }, [saveLastChapterAcessedId, fetchMaxChapters, id]); // Dependências para garantir que as mudanças sejam tratadas
 
 
     // Função para atualizar pontuação no backend
@@ -189,7 +204,7 @@ const QuizPage: React.FC<QuizPageProps> = ({params}) => {
     //gera a pagina
     return (
         <div className='h-full'>
-            <button onClick={()=>router.back()} className="absolute top-24 flex gap-1 items-center sm:top-[7.5rem]">
+            <button onClick={()=>router.back()} className="absolute top-20 sm:top-[7.5rem] flex gap-1 items-center">
                 <ArrowLeft size={"1rem"} className="text-zinc-500" />
                 <p className="text-zinc-500 text-sm leading-snug">Voltar</p>
             </button>
@@ -204,19 +219,22 @@ const QuizPage: React.FC<QuizPageProps> = ({params}) => {
 
                 <div className="flex justify-center items-center h-full">
                     <div className="bg-zinc-800 rounded-lg p-6 w-full sm:w-[31.25rem] text-center">
-                        <img
+                        <Image
+                            height={241}
+                            width={272}
                             src="/assets/images/pic_pontuacao.png"
                             alt="Pontuação"
-                            className="mx-auto mb-6 h-[241px] w-[272px]"
+                            unoptimized
+                            className="mx-auto mb-6"
                         />
                         <div className='flex justify-center items-center mb-4'>
-                            <img src="/assets/atomoIcon.svg" className="h-6" alt="" />
+                            <Image height={24} width={24} src="/assets/atomoIcon.svg" alt="icone de um átomo" />
                             <h2 className="text-white text-2xl font-bold ml-2">{chapterAlreadyCompleted ? 0 : currentQuizScore} átomos</h2>
                         </div>
                         <p className="text-zinc-400">Você acertou {currentQuizScore} questões de {questions.length} questões.</p>
 
                         <div className="flex flex-col items-center gap-4 mt-6">
-                            {parseInt(id) < maxChapters &&(
+                            {maxChapters !== null && parseInt(id) < maxChapters &&(
                             <button
                                 onClick={handleNextChapter}
                                 className="bg-violet-600 h-[48px] text-white py-2 px-4 rounded-full hover:bg-violet-700"

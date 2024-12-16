@@ -9,7 +9,7 @@ interface BottonProps {
   setLimite: (value: number) => void; // Função para alterar o estado do limite
 }
 
-export function ButtonLimitsView({limitView, conteudoLength, limite, setLimite}:BottonProps) {
+export function ButtonLimitsView({limitView, conteudoLength, setLimite}:BottonProps) {
 
   const [mostrarTodos, setMostrarTodos] = useState(false); // Estado que controla se deve exibir todos ou não
 

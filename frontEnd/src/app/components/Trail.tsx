@@ -43,6 +43,7 @@ export default function Trail({title, capitulos, onChapterClick}:TrilhaProps)
                 {capitulos?.slice(0,limite).map(capitulo=>{
                     return(
                         <Chapter 
+                            key={capitulo.id}
                             id={capitulo.id} 
                             title={capitulo.title} 
                             complete={capitulo.complete} 

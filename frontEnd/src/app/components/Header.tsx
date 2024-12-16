@@ -3,6 +3,7 @@
 import { Atom } from "phosphor-react";
 import { Avatar } from "./Avatar";
 import { useScore } from "@/contexts/ScoreContext"; // Importando o contexto
+import Image from "next/image";
 
 export interface HeaderProps{
     srcAvatar: string;
@@ -16,7 +17,7 @@ export function Header()
     return (
         <header className="flex justify-between items-center bg-zinc-800 h-16 sm:h-20 border border-zinc-700 px-1 sm:px-8">
             {/* Logotipo da plataforma */}
-            <img className="h-10" src="/logo.svg" alt="Logotipo da Plataforma Quipro" />
+            <Image className="h-10" width={142} height={40} src="/logo.svg" alt="Logotipo da Plataforma Quipro" />
 
             <div className="flex justify-around items-center w-[13.3125rem]">
                 {/* Exibição do número de pontos */}

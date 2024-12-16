@@ -2,34 +2,34 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { parseCookies } from 'nookies';
 import { ArrowLeft, Atom } from "phosphor-react";
 import { ButtonLimitsView } from "@/app/components/ButtonLimitsView";
 
+interface UserProps{
+  userName: string,
+  points: number
+}
+
 export default function Ranking() {
-  const [usuarios, setUsuarios] = useState<any[]>([]);
+  const [usuarios, setUsuarios] = useState<UserProps[]>([]);
   const router = useRouter();
-  let userId;
 
   //configurações de exibição dos capitulos
   const [limite,setLimite] = useState(3); //definindo limite de visualização inicial do ranking
 
-  const fetchUsuarios = async () => {
-    try {
-      const response = await fetch("http://localhost:3001/usuario/ranking");
-      const {ranking} = await response.json();
-      setUsuarios(ranking);
-      console.log(ranking);
-    } catch (error) {
-      alert("Erro ao buscar usuários");
-    }
-  };
-
   useEffect(() => {
+    const fetchUsuarios = async () => {
+      try {
+        const response = await fetch("http://localhost:3001/usuario/ranking");
+        const {ranking} = await response.json();
+        setUsuarios(ranking);
+        console.log(ranking);
+      } catch (error) {
+        alert("Erro ao buscar usuários");
+      }
+    };
+    
     fetchUsuarios();
-    //recebendo id do usuario que esta armazenado no cookie
-    const cookies = parseCookies();
-    userId = cookies.idUser;
   }, []);
 
   return (

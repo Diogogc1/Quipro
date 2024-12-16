@@ -7,19 +7,42 @@ import { parseCookies } from 'nookies';
 import { ButtonLimitsView } from "../components/ButtonLimitsView";
 
 
+interface ChaptersProps{
+    id: number,
+    title: string,
+    trailId: number,
+    createdAt: Date
+}
+
 export default function Home() {
 
     //recebendo dados dos cookies
     const cookies = parseCookies();
     const userId = cookies.idUser;
     //estados
-    const [chapters, setChapters] = useState<any[]>([]);
+    const [chapters, setChapters] = useState<ChaptersProps[]>([]);
     const lastChapterAcessedId = cookies.lastChapterAcessedId;
     const [trailTitle, setTrailTitle] = useState<string | null>(null);
     //configurações de exibição dos capitulos
     const [limite,setLimite] = useState(3);
 
+    //requisição para buscar o titulo da trilha (para usar como parte da rota da requisição)
+    const fetchTrailTitle = async (trailId: number) => {
+        try {
+            const response = await fetch(`http://localhost:3001/trilha/get-trail-title/${trailId}`);
+            if (response.ok) {
+                const { title } = await response.json();
+                setTrailTitle(title);
+            } else {
+                console.error(`Erro ao buscar título da trilha com ID ${trailId}`);
+            }
+        } catch (error) {
+            console.error("Erro na requisição:", error);
+        }
+    };
+
     // requisição para buscar capitulos que ainda não foram concluidos pelo usuario (recomendações)
+    useEffect(()=>{
     const fetchChapter = async ()=>{
         try {
             const response = await fetch(`http://localhost:3001/capitulo/get-chapters-not-complete/${lastChapterAcessedId}/${userId}`,{
@@ -44,25 +67,8 @@ export default function Home() {
         }
     }
 
-    //requisição para buscar o titulo da trilha (para usar como parte da rota da requisição)
-    const fetchTrailTitle = async (trailId: number) => {
-        try {
-            const response = await fetch(`http://localhost:3001/trilha/get-trail-title/${trailId}`);
-            if (response.ok) {
-                const { title } = await response.json();
-                setTrailTitle(title);
-            } else {
-                console.error(`Erro ao buscar título da trilha com ID ${trailId}`);
-            }
-        } catch (error) {
-            console.error("Erro na requisição:", error);
-        }
-    };
-
-    //ativando requisições ao construir os elementos
-    useEffect(()=>{
         fetchChapter();
-    },[lastChapterAcessedId]);
+    },[lastChapterAcessedId, trailTitle, userId]);
     
     
     return (
@@ -85,7 +91,7 @@ export default function Home() {
                 <div className="flex flex-wrap gap-5 justify-center sm:justify-start mb-8">
                     {chapters?.slice(0,limite).map((chapter, index)=>{
                         return(
-                            <TrailCard name={chapter.title} index={index} id={chapter.id} trailTitle={trailTitle} />
+                            <TrailCard key={chapter.id} name={chapter.title} index={index} id={chapter.id} trailTitle={trailTitle} />
                         );
                     })}
                 </div>

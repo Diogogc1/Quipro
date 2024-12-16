@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { CheckCircle, Circle, Play } from "phosphor-react";
 
@@ -31,9 +32,12 @@ export function TrailCard({ name, index, id, trailTitle }: TrailCardProps) {
           <div className=" w-14 h-14 relative bg-zinc-900 rounded-xl border border-zinc-700">
             <Play className="w-6 h-6 left-[16px] top-[16px] absolute text-lime-400" />
           </div>
-          <img
-            className="w-[12.3125rem] h-[8.625rem]"
+          <Image
+            height={138}
+            width={197}
+            alt="Imagem ilustrativa, globo com pixels"
             src="/assets/images/card.png"
+            unoptimized
           />
         </div>
         <div className="flex w-full items-center justify-between">

@@ -31,43 +31,47 @@ export default function Trilha({params}:TrilhaProps)
      const cookies = parseCookies();
      const userId = cookies.idUser;
  
-
-    // Verifica se `nivel` é válido antes de continuar
-    if (!permittedTrails.includes(nivel as typeof permittedTrails[number])) {
-        return notFound();
-    }
-
     //processo para buscar conteudo da trilha no banco de dados
     const [chapters, setChapters] = useState<Chapter[]>([]);
     const router = useRouter();
 
+    // Verifica se `nivel` é válido e impede a renderização
+    const isTrailValid = permittedTrails.includes(nivel as typeof permittedTrails[number]);
+
     //requisição para buscar os capitulos da trilha
     useEffect(() => {
-        const fetchChapters = async () => {
-            try {
-                const response = await fetch(`http://localhost:3001/trilha/capitulos/${nivel}/${userId}`, {
-                    method: 'GET'
-                  });
+        if(isTrailValid){
+            const fetchChapters = async () => {
+                try {
+                    const response = await fetch(`http://localhost:3001/trilha/capitulos/${nivel}/${userId}`, {
+                        method: 'GET'
+                      });
+            
+                      if (response.ok) {
+                        const data = await response.json();
+                        setChapters(Array.isArray(data.chaptersWithCompletion) ? data.chaptersWithCompletion : []);
+                      }
+                      else{
+                        console.log("Erro na requisição de capitulos da trilha");
+                      }
+                } catch (error) {
+                    console.error("Erro na requisição:", error);
+                }
+              
+            };
         
-                  if (response.ok) {
-                    const data = await response.json();
-                    setChapters(Array.isArray(data.chaptersWithCompletion) ? data.chaptersWithCompletion : []);
-                  }
-                  else{
-                    console.log("Erro na requisição de capitulos da trilha");
-                  }
-            } catch (error) {
-                console.error("Erro na requisição:", error);
-            }
-          
-        };
-    
-        fetchChapters();
-    }, [nivel]);
+            fetchChapters();
+        }
+    }, [nivel, userId, isTrailValid]);
+
+    // Gera página ou retorna 404
+    if (!permittedTrails.includes(nivel as typeof permittedTrails[number])) {
+        return notFound();
+    }
 
 
-     // função que encaminha para pagina do quiz
-    const handleChapterClick = (id) => {
+    // função que encaminha para pagina do quiz
+    const handleChapterClick = (id: number | string) => {
     router.push(`/home/trilha/${nivel}/quizpage/${id}`);
     };
 
