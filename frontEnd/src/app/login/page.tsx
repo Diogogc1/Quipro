@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { setCookie } from "nookies";
+import { ErrorMessage } from "../components/ErrorMessage";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -63,8 +64,9 @@ export default function Login() {
         router.push("/home");
       } else {
         // Exibir mensagem de erro
-        setErrorMessage("Erro desconhecido");
+        setErrorMessage("Email ou Senha incorretos!");
       }
+
     } catch (error) {
       setErrorMessage("Falha ao fazer login. Tente novamente.");
     }
@@ -72,16 +74,17 @@ export default function Login() {
 
   return (
     <div className="bg-zinc-900 h-screen w-full flex flex-col justify-between items-center">
-      <div className="flex flex-col items-center justify-center flex-grow gap-y-10">
+      <div className="flex flex-col items-center justify-center flex-grow gap-y-10 px-2 sm:px-0">
         <Image alt="logo" src={"/logo.svg"} width="200" height="64" />
         <form onSubmit={handleLogin} className="flex flex-col gap-4">
-          <div className="w-[500px] flex flex-col gap-5">
+          <div className="border-red-500 w-full sm:w-[500px] flex flex-col gap-5">
             <div className="relative group w-full">
               <input
                 id="email"
                 type="text"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                maxLength={50}
                 placeholder="Informe seu e-mail"
                 className="text-gray-500 w-full h-12 font-roboto bg-zinc-900 border-zinc-700 text-xl p-4 pl-14 pr-4 border-solid border rounded-full focus:outline-none focus:border-violet-600"
               />
@@ -97,6 +100,7 @@ export default function Login() {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                maxLength={40}
                 placeholder="Digite sua senha"
                 className="text-gray-500 w-full h-12 font-roboto bg-zinc-900 border-zinc-700 text-xl p-4 pl-14 pr-4 border-solid border rounded-full focus:outline-none focus:border-violet-600"
               />
@@ -107,20 +111,20 @@ export default function Login() {
             </div>
           </div>
           {errorMessage && (
-            <div className="text-red-500 text-sm">{errorMessage}</div>
+            <ErrorMessage message={errorMessage} />
           )}
-          <div className="w-[500px] flex flex-col gap-4">
+          <div className=" w-full sm:w-[500px] flex flex-col gap-4">
             <button
               type="button"
-              className="ml-auto text-violet-600 text-sm tracking-wide"
+              className="sm:ml-auto text-violet-600 text-sm tracking-wide"
             >
               Esqueceu sua senha?
             </button>
-            <div className="flex w-full gap-4">
+            <div className="flex w-full flex-wrap justify-center gap-4 text-xl sm:text-base">
               <Link href={'../'}>
                 <button
                   type="button"
-                  className="flex items-center justify-center gap-1 w-[15.0625rem] h-[3rem] border border-lime-400 px-4 py-[0.625rem] text-white rounded-full hover:border-lime-300 transition-colors duration-200"
+                  className="flex items-center justify-center gap-1 w-64 sm:w-[15.0625rem] h-[3rem] border border-lime-400 px-4 py-[0.625rem] text-white rounded-full hover:border-lime-300 transition-colors duration-200"
                 >
                   <ArrowLeft size={24} />
                   Voltar
@@ -128,7 +132,7 @@ export default function Login() {
               </Link>
               <button
                 type="submit"
-                className="w-[15.0625rem] h-[3rem] bg-violet-600 px-4 py-[0.625rem] text-white font-bold rounded-full hover:bg-violet-500 transition-colors duration-200"
+                className=" w-64 sm:w-[15.0625rem] h-[3rem] bg-violet-600 px-4 py-[0.625rem] text-white font-bold rounded-full hover:bg-violet-500 transition-colors duration-200"
               >
                 Entrar
               </button>

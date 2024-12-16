@@ -201,17 +201,9 @@ const QuizPage: React.FC<QuizPageProps> = ({params}) => {
                     onCorrectAnswer={handleCorrectAnswer}
                 />
             ) : ( //Exibe quando finaliza os quizzes
-                // <div className="text-center">
-                //     <h1>Parabéns! Você completou o quiz.</h1>
-                //     <p>Você acertou {currentQuizScore} questões de {questions.length} questões.</p>
-                //     <div className="flex items-center justify-center">
-                //         <h2>Você ganhou {chapterAlreadyCompleted ? 0 : currentQuizScore} átomos.</h2>
-                //         <img src="/assets/atomoIcon.svg" className="h-6" alt="" />
-                //     </div>
-                // </div>
 
                 <div className="flex justify-center items-center h-full">
-                    <div className="bg-zinc-800 rounded-lg p-6 w-[500px] text-center">
+                    <div className="bg-zinc-800 rounded-lg p-6 w-full sm:w-[31.25rem] text-center">
                         <img
                             src="/assets/images/pic_pontuacao.png"
                             alt="Pontuação"

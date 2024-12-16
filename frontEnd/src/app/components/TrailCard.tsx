@@ -27,8 +27,8 @@ export function TrailCard({ name, index, id, trailTitle }: TrailCardProps) {
   return (
     <>
       <div onClick={handleChapterClick} className={`min-h-56 w-11/12 sm:w-[330px] p-6 bg-zinc-800 rounded-xl border ${index === 0 ? 'border-green-500' : 'border-zinc-700'}  flex-col justify-start items-start gap-2.5 inline-flex hover:border-violet-600 transition-colors duration-250 cursor-pointer`}>
-        <div className=" w-[293px] justify-between items-start inline-flex">
-          <div className="w-14 h-14 relative bg-zinc-900 rounded-xl border border-zinc-700">
+        <div className="w-full justify-between items-start inline-flex">
+          <div className=" w-14 h-14 relative bg-zinc-900 rounded-xl border border-zinc-700">
             <Play className="w-6 h-6 left-[16px] top-[16px] absolute text-lime-400" />
           </div>
           <img

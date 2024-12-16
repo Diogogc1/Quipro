@@ -66,11 +66,11 @@ export default function Home() {
     
     
     return (
-        <div className=" sm:px-[48px] md:px-[73px]">
+        <div className="sm:px-[48px] md:px-[73px]">
             <div>
-                <h1 className="text-zinc-400 text-[2rem] font-bold">Trilhas</h1>
-                <p className="text-zinc-500 text-sm font-normal leading-snug">Fique à vontade para aprender da forma que você desejar, de onde estiver.</p>
-                <div className="mt-6 flex gap-8">
+                <h1 className="text-zinc-400 text-[2rem] font-bold text-center sm:text-start">Trilhas</h1>
+                <p className="text-zinc-500 text-sm font-normal leading-snug text-center sm:text-start">Fique à vontade para aprender da forma que você desejar, de onde estiver.</p>
+                <div className="mt-6 flex gap-8 justify-center sm:justify-start">
                     <ButtonRoute name="Iniciante" type="Play" link="home/trilha/Iniciante" />
                     <ButtonRoute name="Intermediário" type="TestTube" link="home/trilha/Intermediario" />
                     <ButtonRoute name="Avançado" type="Medal" link="home/trilha/Avancado" />
@@ -82,7 +82,7 @@ export default function Home() {
                     <h2 className="text-zinc-400 text-xl">Recomendações para você</h2>
                     <ButtonLimitsView conteudoLength={chapters.length} limitView={3} limite={limite} setLimite={setLimite} />
                 </div>
-                <div className="flex flex-wrap gap-5">
+                <div className="flex flex-wrap gap-5 justify-center sm:justify-start mb-8">
                     {chapters?.slice(0,limite).map((chapter, index)=>{
                         return(
                             <TrailCard name={chapter.title} index={index} id={chapter.id} trailTitle={trailTitle} />

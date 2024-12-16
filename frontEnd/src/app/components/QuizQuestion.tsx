@@ -42,7 +42,7 @@ const QuizQuestion: React.FC<QuizQuestionProps> = ({ question, onNextQuestion, o
 
 
     return (
-        <div className="border border-zinc-700 min-h-[calc(100vh-(5rem+2.5rem))]  w-full sm:w-9/12 md:w-9/12  lg:w-[31.625rem] text-zinc-300 flex flex-col items-center mx-auto p-8 bg-zinc-800 rounded-md">
+        <div className="border border-zinc-700 min-h-[calc(100vh-(5rem+2.5rem))]  w-full sm:w-9/12 md:w-9/12  lg:w-[31.625rem] text-zinc-300 flex flex-col items-center mx-auto py-8 px-3 sm:p-8 bg-zinc-800 rounded-md">
 
             <h1 className="text-xl w-full font-bold mb-7 text-justify">{question.question}</h1>
             {question.image && <img src={question.image} alt="Imagem da questão" loading="lazy" className="mb-4 mx-auto w-full h-[200px] rounded-xl" />}

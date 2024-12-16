@@ -11,7 +11,7 @@ export default function Home() {
           height={38}
           priority
         />
-        <ol className="list-inside list-decimal text-sm text-left sm:text-left font-[family-name:var(--font-geist-mono)] space-y-3">
+        <ol className="list-inside list-decimal sm:text-sm text-left font-[family-name:var(--font-geist-mono)] space-y-3">
           <li>Explore, jogue e conquiste sua jornada na química!</li>
           <li>Cada resposta é um passo rumo ao domínio da química.</li>
           <li>Descubra a química no seu ritmo, um quiz de cada vez.</li>
@@ -19,14 +19,14 @@ export default function Home() {
 
         <div className="flex gap-4 items-center flex-col sm:flex-row">
           <a
-            className="font-bold rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-violet-600 gap-2 hover:bg-[#383838] dark:hover:bg-violet-500 text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-44"
+            className="font-bold rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-violet-600 gap-2 hover:bg-[#383838] dark:hover:bg-violet-500 text-xl sm:text-base h-14 sm:h-12 px-4 sm:px-5 w-64 sm:w-44"
             href="/login"
             rel="noopener noreferrer"
           >
             Entrar
           </a>
           <a
-            className="rounded-full border border-lime-400 transition-colors flex items-center justify-center hover:border-lime-300 hover:bg-zinc-800 text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-44"
+            className="rounded-full border border-lime-400 transition-colors flex items-center justify-center hover:border-lime-300 hover:bg-zinc-800 text-xl sm:text-base h-14 sm:h-12 px-4 sm:px-5 w-64 sm:w-44"
             href="/signup"
             rel="noopener noreferrer"
           >

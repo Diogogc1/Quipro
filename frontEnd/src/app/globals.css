@@ -38,3 +38,14 @@ input:-webkit-autofill:focus {
   -webkit-box-shadow: 0 0 0 30px #18181B inset !important; /* Define a cor de fundo desejada do auto completar dos inputs*/
   -webkit-text-fill-color: white !important; /* Define a cor do texto dos autocompletares dos inputs */
 }
+
+
+/* Remove o ícone nativo do input date */
+input[type='date']::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none;
+}
+
+input[type='date'] {
+  appearance: none;
+}

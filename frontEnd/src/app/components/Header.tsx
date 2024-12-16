@@ -8,13 +8,13 @@ export interface HeaderProps{
     srcAvatar: string;
 }
 
-export function Header({srcAvatar}: HeaderProps)
+export function Header()
 {
     // Consome o contexto de pontuação
     const { score } = useScore();
 
     return (
-        <header className="flex justify-between items-center bg-zinc-800 h-20 border border-zinc-700 px-8">
+        <header className="flex justify-between items-center bg-zinc-800 h-16 sm:h-20 border border-zinc-700 px-1 sm:px-8">
             {/* Logotipo da plataforma */}
             <img className="h-10" src="/logo.svg" alt="Logotipo da Plataforma Quipro" />
 
