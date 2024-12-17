@@ -1,4 +1,4 @@
-![Capa do Projeto](/frontEnd/public/logo.svg)
+![Capa do Projeto](/frontend/public/logo.svg)
 
 ### O que é?👨‍🔬
 <p align="justify">
