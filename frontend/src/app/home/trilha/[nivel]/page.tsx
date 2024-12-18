@@ -43,7 +43,7 @@ export default function Trilha({params}:TrilhaProps)
         if(isTrailValid){
             const fetchChapters = async () => {
                 try {
-                    const response = await fetch(`http://localhost:3001/trilha/capitulos/${nivel}/${userId}`, {
+                    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/trilha/capitulos/${nivel}/${userId}`, {
                         method: 'GET'
                       });
             

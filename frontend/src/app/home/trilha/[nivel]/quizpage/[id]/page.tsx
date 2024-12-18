@@ -50,7 +50,7 @@ const QuizPage: React.FC<QuizPageProps> = ({params}) => {
     const saveLastChapterAcessedId = useCallback(
         async ()=>{
             try {
-                const response = await fetch('http://localhost:3001/usuario/save-last-chapter-accessed',{
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/usuario/save-last-chapter-accessed`,{
                     method: 'PUT',
                     body: JSON.stringify({userId, id}),
                     headers: {'Content-Type': 'application/json'},
@@ -72,7 +72,7 @@ const QuizPage: React.FC<QuizPageProps> = ({params}) => {
     //função de requisição para numero total de capitulos da trilha
     const fetchMaxChapters = useCallback(
         async () => {
-            const response = await fetch(`http://localhost:3001/capitulo/get-max-Chapters/${userId}/${id}`);
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/capitulo/get-max-Chapters/${userId}/${id}`);
             if(response.ok)
             {
                 const {totalChapters} = await response.json();
@@ -90,7 +90,7 @@ const QuizPage: React.FC<QuizPageProps> = ({params}) => {
         const fetchQuestions = async () => {
             try{
                 const chapterId = Number(id); // Aqui converte 'id' para número
-                const response = await fetch('http://localhost:3001/quizz', {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/quizz`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -119,7 +119,7 @@ const QuizPage: React.FC<QuizPageProps> = ({params}) => {
     // Função para atualizar pontuação no backend
     const updateUserPoints = async (userId: number, points: number) => {
         try {
-            const response = await fetch('http://localhost:3001/usuario/update-user-points', {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/usuario/update-user-points`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -139,7 +139,7 @@ const QuizPage: React.FC<QuizPageProps> = ({params}) => {
     //função para criar o progresso ou verificar se ele ja existe
     const progress = async ()=>{
         try {
-            const response = await fetch('http://localhost:3001/progress/create', {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/progress/create`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
