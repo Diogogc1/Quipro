@@ -19,7 +19,6 @@ export default function Login() {
 
     // Requisição para o back-end
     try {
-      alert(process.env.NEXT_PUBLIC_API_URL)
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/usuario/login`, {
         method: "POST",
         headers: {

@@ -11,8 +11,8 @@ services:
   backend:
     build:
       context: ./backend
-    expose:
-      - "3001" # Torna a porta 3001 acessível na rede interna, mas não para o host
+    ports:
+      - "3001:3001" # Torna a porta 3001 acessível na rede interna, mas não para o host
     env_file:
       - ./backend/.env #puxando senhas do .env
     depends_on:

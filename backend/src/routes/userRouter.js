@@ -83,7 +83,9 @@ router.post('/login', async (req, res) => {
        
         res.status(200).json({ token, userId: user.id, userName:user.userName, lastChapterAccessedId:user.lastChapterAccessedId});
     } catch (error) {
-        res.status(500).json({ error: 'Falha ao fazer login' });
+        res.status(500).json({
+            message: "Ocorreu um erro no servidor.",
+            error: error.message, });
     }
 });
 
