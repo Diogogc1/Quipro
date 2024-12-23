@@ -20,7 +20,7 @@ export default function Ranking() {
   useEffect(() => {
     const fetchUsuarios = async () => {
       try {
-        const response = await fetch("http://localhost:3001/usuario/ranking");
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/usuario/ranking`);
         const {ranking} = await response.json();
         setUsuarios(ranking);
         console.log(ranking);

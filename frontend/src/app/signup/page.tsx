@@ -64,7 +64,7 @@ export default function SignUp() {
 
   const onSubmit = async (data: SignUpFormData) => {
     try {
-      const response = await fetch("http://localhost:3001/usuario/cadastro", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/usuario/cadastro`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

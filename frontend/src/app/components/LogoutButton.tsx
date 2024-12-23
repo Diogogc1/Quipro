@@ -10,7 +10,7 @@ export function LogoutButton() {
   const handleLogout = async () => {
     // Requisição para o back-end
     try {
-      const response = await fetch("http://localhost:3001/usuario/logout", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/usuario/logout`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -2,10 +2,11 @@
 
 const express = require('express');
 const cors = require('cors');
-
-
 const app = express();
-app.use(cors());
+
+app.use(cors({
+  origin: process.env.ENABLED_CORS?.split(';') || []
+}));
 app.use(express.json());
 
 //puxar dotenv

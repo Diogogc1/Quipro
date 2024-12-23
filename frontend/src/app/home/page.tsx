@@ -29,7 +29,7 @@ export default function Home() {
     //requisição para buscar o titulo da trilha (para usar como parte da rota da requisição)
     const fetchTrailTitle = async (trailId: number) => {
         try {
-            const response = await fetch(`http://localhost:3001/trilha/get-trail-title/${trailId}`);
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/trilha/get-trail-title/${trailId}`);
             if (response.ok) {
                 const { title } = await response.json();
                 setTrailTitle(title);
@@ -45,7 +45,7 @@ export default function Home() {
     useEffect(()=>{
     const fetchChapter = async ()=>{
         try {
-            const response = await fetch(`http://localhost:3001/capitulo/get-chapters-not-complete/${lastChapterAcessedId}/${userId}`,{
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/capitulo/get-chapters-not-complete/${lastChapterAcessedId}/${userId}`,{
                 method: 'GET'
             });
 

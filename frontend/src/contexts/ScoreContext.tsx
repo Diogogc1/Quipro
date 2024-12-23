@@ -43,7 +43,7 @@ export const ScoreProvider: React.FC<ScoreProviderProps> = ({ children }) => {
     
     const fetchScore = async () => {
       try {
-        const response = await fetch(`http://localhost:3001/usuario/${userId}/points`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/usuario/${userId}/points`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

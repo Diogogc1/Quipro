@@ -19,7 +19,7 @@ export default function Login() {
 
     // Requisição para o back-end
     try {
-      const response = await fetch("http://localhost:3001/usuario/login", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/usuario/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -72,7 +72,8 @@ export default function Login() {
       }
 
     } catch (error) {
-      setErrorMessage("Falha ao fazer login. Tente novamente.");
+      setErrorMessage("Falha ao fazer login. Tente novamente: "+error);
+      console.error("Erro: ", error);
     }
   };
 
