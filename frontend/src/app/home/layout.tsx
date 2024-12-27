@@ -9,7 +9,8 @@ import { useAuth } from "../utils/auth";
 export default function GeralLayout({ children }: { children: React.ReactNode }) {
 
     //Autenticando se usuário está logado
-    const token = useAuth(); 
+    const {token, isVerifying} = useAuth();
+    if(isVerifying) return null; //Aguarda a verificação para evitar renderização prematura
     if(!token) return null;
 
 

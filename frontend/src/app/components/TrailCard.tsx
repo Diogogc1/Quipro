@@ -18,7 +18,7 @@ export function TrailCard({ name, index, id, trailTitle }: TrailCardProps) {
   // encaminha para pagina do quiz
   const handleChapterClick = () => {
     if (trailTitle) {
-      router.push(`/home/trilha/${trailTitle}/quizpage/${id}`);
+      router.push(`/home/trail/${trailTitle}/quizpage/${id}`);
     } else {
       console.error("Título da trilha não encontrado");
     }
