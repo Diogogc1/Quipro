@@ -19,6 +19,7 @@ export default function Home() {
     //recebendo dados dos cookies
     const cookies = parseCookies();
     const userId = cookies.idUser;
+    const token = cookies.authToken;
     //estados
     const [chapters, setChapters] = useState<ChaptersProps[]>([]);
     const lastChapterAcessedId = cookies.lastChapterAcessedId;
@@ -29,7 +30,11 @@ export default function Home() {
     //requisição para buscar o titulo da trilha (para usar como parte da rota da requisição)
     const fetchTrailTitle = async (trailId: number) => {
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/trilha/get-trail-title/${trailId}`);
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/trail/get-trail-title/${trailId}`,{
+                headers:{
+                    'Authorization': `Bearer ${token}`, //cabeçalho de autorização
+                }
+            });
             if (response.ok) {
                 const { title } = await response.json();
                 setTrailTitle(title);
@@ -45,8 +50,11 @@ export default function Home() {
     useEffect(()=>{
     const fetchChapter = async ()=>{
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/capitulo/get-chapters-not-complete/${lastChapterAcessedId}/${userId}`,{
-                method: 'GET'
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/chapter/get-incomplete-chapters/${lastChapterAcessedId}/${userId}`,{
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`, //cabeçalho de autorização
+                },
             });
 
             if (response.ok) {
@@ -77,9 +85,9 @@ export default function Home() {
                 <h1 className="text-zinc-400 text-[2rem] font-bold text-center sm:text-start">Trilhas</h1>
                 <p className="text-zinc-500 text-sm font-normal leading-snug text-center sm:text-start">Fique à vontade para aprender da forma que você desejar, de onde estiver.</p>
                 <div className="mt-6 flex gap-8 justify-center sm:justify-start">
-                    <ButtonRoute name="Iniciante" type="Play" link="home/trilha/Iniciante" />
-                    <ButtonRoute name="Intermediário" type="TestTube" link="home/trilha/Intermediario" />
-                    <ButtonRoute name="Avançado" type="Medal" link="home/trilha/Avancado" />
+                    <ButtonRoute name="Iniciante" type="Play" link="home/trail/Iniciante" />
+                    <ButtonRoute name="Intermediário" type="TestTube" link="home/trail/Intermediario" />
+                    <ButtonRoute name="Avançado" type="Medal" link="home/trail/Avancado" />
                 </div>
             </div>
 

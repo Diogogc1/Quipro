@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ArrowLeft, Atom } from "phosphor-react";
 import { ButtonLimitsView } from "@/app/components/ButtonLimitsView";
+import { parseCookies } from "nookies";
 
 interface UserProps{
   userName: string,
@@ -14,18 +15,24 @@ export default function Ranking() {
   const [usuarios, setUsuarios] = useState<UserProps[]>([]);
   const router = useRouter();
 
+  const cookies = parseCookies();
+  const token = cookies.authToken;
+
   //configurações de exibição dos capitulos
   const [limite,setLimite] = useState(3); //definindo limite de visualização inicial do ranking
 
   useEffect(() => {
     const fetchUsuarios = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/usuario/ranking`);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/ranking`,{
+          headers:{
+            'Authorization': `Bearer ${token}`, //cabeçalho de autorização
+          }
+        });
         const {ranking} = await response.json();
         setUsuarios(ranking);
-        console.log(ranking);
       } catch (error) {
-        alert("Erro ao buscar usuários");
+        console.log("Erro ao buscar usuários");
       }
     };
     

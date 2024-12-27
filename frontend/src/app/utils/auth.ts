@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 // Função para verificar o token, armazená-lo no estado e redirecionar se necessário
 export const useAuth = () => {
   const [token, setToken] = useState<string | null>(null);
+  const [isVerifying, setIsVerifying] = useState<boolean>(true);
   const router = useRouter();
 
   useEffect(() => {
@@ -16,7 +17,8 @@ export const useAuth = () => {
     } else {
       router.push('/login'); // Redireciona se o token não for encontrado
     }
+    setIsVerifying(false);
   }, [router]);
 
-  return token;
+  return {token, isVerifying};
 };

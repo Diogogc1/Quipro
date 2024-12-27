@@ -29,6 +29,7 @@ export const ScoreProvider: React.FC<ScoreProviderProps> = ({ children }) => {
 
   const cookies = parseCookies();
   const userId = cookies.idUser; // Recupera o ID do usuário armazenado nos cookies
+  const token = cookies.authToken;
 
   const incrementScore = (points:number) => {
     setScore((prevScore) => prevScore + points); // Incrementa a pontuação no estado local
@@ -43,10 +44,11 @@ export const ScoreProvider: React.FC<ScoreProviderProps> = ({ children }) => {
     
     const fetchScore = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/usuario/${userId}/points`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/${userId}/points`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`, //cabeçalho de autorização
           },
         });
 
